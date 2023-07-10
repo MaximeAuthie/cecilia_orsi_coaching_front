@@ -1,18 +1,10 @@
 <template>
-    <div class="banner" :style="{backgroundImage: page.bannerUrl}">
-        <div class="banner_logo">
-            <img src="/logo_nav_header.png" alt="">
-        </div>
-        <div class="banner_message">
-            <h5>{{ bannerMessages[activeMessageIndex] }}</h5>
-        </div> 
-        
-        <div class="banner_buttons">
-            <NuxtLink to="/appointment"><input class="button button_main" type="button" value="Prendre rendez-vous"></NuxtLink>
-            <NuxtLink to="/contact"><input class="button button_secondary" type="button" value="Me contacter"></NuxtLink>
-        </div>
+    <Banner :imgUrl="page.bannerUrl" :messages="bannerMessages" :isMainButtonActive="page.isMainButtonActive" :isSecondButtonActive="page.isSecondaryButtonActive" ></Banner>
+    <div class="content">
+        <section class="content_tiles">
+            <TileComponent v-for="tile in tilesList" :pageTitle="tile.title" :pagePath="tile.path" :pageImgUrm="tile.imgUrl" ></TileComponent>
+        </section>
     </div>
-    <div class="content"></div>
 </template>
 
 <script lang="ts">
@@ -21,17 +13,49 @@
         data() {
             return {
                 page: {
-                    title:         'Accueil',
-                    bannerUrl:     'url(https://images.pexels.com/photos/1123256/pexels-photo-1123256.jpeg)',
-                    img1Url:       '',
-                    img1Alt:       '',
-                    img2Url:       '',
-                    img2Alt:       '',
-                    text1:         '',
-                    text2:         ''
+                    title:                      'Accueil',
+                    bannerUrl:                  'url(https://images.pexels.com/photos/1123256/pexels-photo-1123256.jpeg)',
+                    img1Url:                    '',
+                    img1Alt:                    '',
+                    img2Url:                    '',
+                    img2Alt:                    '',
+                    text1:                      '',
+                    text2:                      '',
+                    isMainButtonActive:         true,
+                    isSecondaryButtonActive :   true
                 },
-                activeMessageIndex: 0,
-                activeMessageText: '',
+                tilesList: [
+                    {
+                        title: "Qui suis-je?",
+                        path: "/owner",
+                        imgUrl: "url(/cecilia-orsi.png)"
+                    },
+                    {
+                        title: "Tarifs",
+                        path: "/appointment",
+                        imgUrl: "url(https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg)"
+                    },
+                    {
+                        title: "Blog",
+                        path: "/blog",
+                        imgUrl: "url(https://images.pexels.com/photos/4099355/pexels-photo-4099355.jpeg)"
+                    },
+                    {
+                        title: "Prendre rendez-vous",
+                        path: "/appointment",
+                        imgUrl: "url(https://images.pexels.com/photos/7176026/pexels-photo-7176026.jpeg)"
+                    },
+                    {
+                        title: "Contact",
+                        path: "/contact",
+                        imgUrl: "url(https://images.pexels.com/photos/261599/pexels-photo-261599.jpeg)"
+                    },
+                    {
+                        title: "Mon instagram",
+                        path: "https://www.instagram.com/cecilia_orsi_coaching/",
+                        imgUrl: "url(https://images.pexels.com/photos/13288521/pexels-photo-13288521.jpeg)"
+                    }
+                ],
                 bannerMessages: [
                     'Définir un projet',
                     'Prendre du recul',
@@ -41,24 +65,7 @@
                     'Comprendre ses émotions',
                     'Mettre de la conscience sur une situation'
                 ],
-                interval: {} as ReturnType<typeof setInterval>,
             }
-        },
-    
-        mounted() {
-          this.interval = setInterval(async () => {
-                if (this.activeMessageIndex < this.bannerMessages.length - 1) {
-                    this.activeMessageIndex ++;
-                } else {
-                    this.activeMessageIndex = 0;
-                }
-                console.log(this.activeMessageIndex +" - "+ this.bannerMessages.length);
-                
-                this.activeMessageText = this.bannerMessages[this.activeMessageIndex];
-            }, 4000)  
-        },
-        beforeUnmount() {
-            clearInterval(this.interval);
         },
     };
 </script>
