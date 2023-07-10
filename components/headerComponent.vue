@@ -1,6 +1,6 @@
 <template>
     <header>
-        <div class="header_logo">
+        <div class="header_logo" @click="closeBurgerMenu">
             <nuxt-link to="/">
                 <img src="/logo_header.png" alt="Cécilia Orsi Coaching">
             </nuxt-link>
@@ -47,7 +47,13 @@
                     this.actualClass = 'header_nav_close';
                 }
             }
-           
+        },
+        closeBurgerMenu() {
+            if (this.windowWidth < 1210) {
+                if (this.isMenuOpen) {
+                    this.actualClass = 'header_nav_close';
+                }
+            }
         }
     },
    }
@@ -69,6 +75,7 @@
         padding: 0 2vw;
         box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
         background-color: white;
+        z-index: 10;
     }
 
     .header_logo {
