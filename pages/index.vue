@@ -61,7 +61,7 @@
                     'Prendre du recul',
                     'Lever un blocage',
                     'Confiance en soi',
-                    'Gérer ds conflits',
+                    'Gérer des conflits',
                     'Comprendre ses émotions',
                     'Mettre de la conscience sur une situation'
                 ],
