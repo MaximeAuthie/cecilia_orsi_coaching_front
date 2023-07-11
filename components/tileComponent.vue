@@ -54,9 +54,14 @@
         background-color: #000000;
         opacity: 0.2;
         height: 100%;
-        width: 100%;border-radius: 20px;
+        width: 100%;
+        border-radius: 20px;
         z-index: 0;
     }
+    .tile_div:hover {
+        animation: hoverDiv 400ms ease-in-out forwards;
+    }
+
     .tile_title {
         display: flex;
         align-items: center;
