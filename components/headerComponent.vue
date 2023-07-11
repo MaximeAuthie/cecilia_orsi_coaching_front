@@ -203,7 +203,6 @@
         .header_logo {
             max-width: 30%;
             max-height: 100%;
-            background-color: #398C7E;
         }
         .header_logo img {
             max-height: var(--computer-header-height);

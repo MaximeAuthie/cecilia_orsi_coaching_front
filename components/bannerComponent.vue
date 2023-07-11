@@ -94,7 +94,6 @@
         justify-content: center;
         height: 25vh;
         margin-bottom: 5vh;
-        background-color: aquamarine;
     }
 
     .banner_logo img {
@@ -108,7 +107,6 @@
         align-items: center;
         height: 20vh;
         width: 90%;
-        background-color: aqua;
         margin-bottom: 5vh;
     }
 
@@ -128,12 +126,10 @@
         }
         .banner_logo {
             width: 15%;
-            background-color: aquamarine;
         }
         .banner_message {
             height: 10vh;
             width: 90%;
-            background-color: aqua;
         }
     }
 </style>
