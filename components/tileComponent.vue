@@ -59,7 +59,12 @@
         z-index: 0;
     }
     .tile_div:hover {
-        animation: hoverDiv 400ms ease-in-out forwards;
+        animation: hoverDiv 300ms ease-in-out forwards;
+    }
+
+    .tile_div:active {
+        transform: translate(0px ,2px);
+        animation: clickOnDiv 300ms ease-in-out forwards;
     }
 
     .tile_title {

@@ -61,8 +61,6 @@
 
 <style scoped>
 
-    
-
     header {
         position: sticky;
         top: 0px;
@@ -154,7 +152,11 @@
         color: #B05447;
     }
     .header_nav_list_link:hover {
-        text-decoration: underline;
+        animation: hoverText 300ms ease-in-out forwards;
+    }
+
+    .header_nav_list_link:active {
+        animation: clickOnText 300ms ease-in-out forwards;
     }
 
     @keyframes openMenu {
