@@ -187,101 +187,12 @@
                     }
                 }
             }
-            
+        }
     }
-}
 </script>
 
 <style scoped>
-
-    form {
-        margin: 0;
-        width: 100%;
-    }
-    label {
-        font-size: 1.2em;
-        color: #B05447;
-        text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    }
-    .error_message {
-        color: red;
-        margin-top: 0;
-        margin-bottom: 2vh;
-        text-align: center;
-    }
-
-    .normal_input {
-        border: #B05447 solid 2px;
-        border-radius: 20px;
-        width: 95%;
-        height: 30px;
-        padding: 0 2%;
-        font-family: 'Playfair', serif;
-        font-size: 1.1em;
-        margin-bottom: 1vh;
-        font-size: 1.2em;
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    }
-    .bad_input {
-        border: red solid 2px;
-        border-radius: 20px;
-        width: 95%;
-        height: 30px;
-        padding: 0 2%;
-        font-family: 'Playfair', serif;
-        font-size: 1.1em;
-        margin-bottom: 1vh;
-        font-size: 1.2em;
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    }
-
-    .normal_textarea {
-        border: #B05447 solid 2px;
-        border-radius: 10px;
-        width: 95%;
-        height: 25vh;
-        padding: 0 2%;
-        font-family: 'Playfair', serif;
-        font-size: 1.2em;
-        resize: vertical;
-    }
-
-    .bad_textarea {
-        border: red solid 2px;
-        border-radius: 10px;
-        width: 95%;
-        height: 25vh;
-        padding: 0 2%;
-        font-family: 'Playfair', serif;
-        font-size: 1.2em;
-        resize: vertical;
-    }
-
     .content_validation_message {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
         height: 80vh;
-        width: 100%;
     }
-
-    @media screen and (min-width: 1210px) {
-  
-    form {
-        width: 75%;
-    }
-
-    .normal_input, .bad_input {
-        padding: 0 1%;
-        width: 98%;
-        height: 35px;
-    }
-    
-    .normal_textarea, .bad_textarea {
-        padding: 0 1%;
-        width: 98%;
-    }
-    
-}
 </style>
