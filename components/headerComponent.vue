@@ -243,7 +243,7 @@
         }
 
         .header_nav_list_link {
-            color:#B05447;
+            color:#398C7E;
             margin-left: 3vw;
         }
     }
