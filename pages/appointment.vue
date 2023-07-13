@@ -18,8 +18,8 @@
                     <strong>ATTENTION :</strong> Toute séance non annulée le jour même est due.<br>
                 </p>
                 <h3>Prise de rendez-vous en ligne</h3>
-                <div class="rdv">
-                    <iframe src="https://soins.calendoc.net/pro/4907/119973888727169/book/date/embedded" width="1000" height="800"></iframe>
+                <div class="content_description_appointment_module">
+                    <iframe src="https://soins.calendoc.net/pro/4907/119973888727169/book/date/embedded"></iframe>
                 </div>
                 <h3>Prise de rendez-vous classique</h3>
                 <p>
@@ -113,10 +113,26 @@
         margin: 5vh 0;
     }
 
+    .content_description_appointment_module {
+        width: 100%;
+    }
+
+    .content_description_appointment_module iframe {
+        width: 100%;
+        height: 800px;
+    }
+
+
     @media screen and (min-width: 1210px) {
         .content_description_images {
             flex-direction: row;
             justify-content: space-around;
+        }
+        .content_description_appointment_module iframe {
+            display: block;
+            width: 80%;
+            height: 1000px;
+            margin: auto;
         }
     }
 </style>
