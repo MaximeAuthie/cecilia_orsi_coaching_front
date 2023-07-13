@@ -21,7 +21,11 @@
             <div class="content_article_title">
                 <h5>A la une</h5>
             </div>
-            <ArticlesFrontPageComponent :articleId="frontPageArticle.id" :articleTitle="frontPageArticle.title" :articleImgUrm="frontPageArticle.imgUrl" :categoryId="frontPageArticle.categoryId"></ArticlesFrontPageComponent>
+            <ArticlesFrontPageComponent
+                :id="frontPageArticle.id"
+                :title="frontPageArticle.title"
+                :bannerUrl="frontPageArticle.bannerUrl"
+                :categories="frontPageArticle.categories"></ArticlesFrontPageComponent>
             <div class="content_articles_list">
                 <ArticlesTileComponent v-for="article in articles"
                     :id="article.id"
@@ -139,8 +143,21 @@ import { truncateSync } from 'fs';
                 frontPageArticle: {
                     id:             10,
                     title:          "Vacances d'été - s'assumer enfin",
-                    imgUrl:         "url(https://images.pexels.com/photos/2538225/pexels-photo-2538225.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
-                    categoryId :    5
+                    bannerUrl:         "url(https://images.pexels.com/photos/2538225/pexels-photo-2538225.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
+                    user: {
+                            firstName: 'Cécilia',
+                            lastName: 'Orsi'
+                        },
+                    categories: [
+                        {
+                            name:   "Bien-être",
+                            color:  "#B05447"
+                        },
+                        {
+                            name:   "Santé",
+                            color:  "#8EBBA7"
+                        },
+                    ]
                 },
                 articles: [
                     {
@@ -154,10 +171,6 @@ import { truncateSync } from 'fs';
                             lastName: 'Orsi'
                         },
                         categories: [
-                            {
-                                name:   "Nature",
-                                color:  "#398C7E"
-                            },
                             {
                                 name:   "Bien-être",
                                 color:  "#B05447"
