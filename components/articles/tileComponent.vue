@@ -1,6 +1,5 @@
 <template>
-    <nuxt-link class="article_div" >
-       
+    <nuxt-link :to="tileRoute" class="article_div" >
             <div class="article_div_title_bloc" :style="{backgroundImage: bannerUrl}">
                 <div class="article_div_title_bloc_title">
                     <h5>{{ title }}</h5>
@@ -51,6 +50,14 @@
                 required:   true
             },
         },
+        data() {
+            return {
+                tileRoute : '' as string
+            }
+        },
+        mounted() {
+            this.tileRoute = 'blog/article/' + this.id;
+        }
     }
 </script>
 
@@ -73,6 +80,7 @@
         padding: 2vh 0;
         box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
         cursor: pointer;
+        text-decoration: none;
     }
     .article_div:hover {
         animation: hoverDiv 400ms ease-in-out forwards;

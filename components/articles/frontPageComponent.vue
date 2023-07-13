@@ -1,10 +1,13 @@
 <template>
-    <div class="front_page_article_div" :style="{backgroundImage: articleImgUrm}">
-        <div class="front_page_article_category" :style="{backgroundColor: category.color, borderColor: category.color}">
-            <span class="front_page_article_category_title"> {{ category.name }} </span>
+    <div class="front_page_article_div" :style="{backgroundImage: bannerUrl}">
+
+        <div class="front_page_article_div_categories">
+            <div v-for="category in categories" class="front_page_article_category" :style="{backgroundColor: category.color, borderColor: category.color}">
+                <span class="front_page_article_category_title"> {{ category.name }} </span>
+            </div>
         </div>
         <div class="front_page_article_title">
-            <h5>{{ articleTitle }}</h5>
+            <h5>{{ title }}</h5>
         </div>
         <NuxtLink class="front_page_article_link" to="/"><input class="button button_secondary" type="button" value="Lire l'article"></NuxtLink>
     </div>
@@ -13,31 +16,31 @@
 <script lang="ts">
     export default {
         props: {
-            articleId: {
+            id: {
                 type:       Number,
                 required:   true
             },
-            articleTitle: {
+            title: {
                 type:       String,
                 required:   true
             },
-            articleImgUrm: {
+            bannerUrl: {
                 type:       String,
                 required:   true
             },
-            categoryId: {
-                type:       Number,
+            categories: {
+                type:       Object,
                 required:   true
-            }
+            },
         },
         data() {
             return {
-                category: {
-                    name: "Bien-être",
-                    color: "#B05447"
-                }
+                tileRoute : '' as string
             }
         },
+        mounted() {
+            this.tileRoute = 'blog/article/' + this.id;
+        }
     }
 </script>
 
@@ -80,17 +83,23 @@
         animation: hoverDiv 400ms ease-in-out forwards;
     }
 
+    .front_page_article_div_categories {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
     .front_page_article_category {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 160px;
-        height: 40px;
+        width: 100px;
+        height: 30px;
         border-style: solid;
         border-radius: 30px;
         text-align: center;
         color: #FFFFFF;
-        font-size: 1.4em;
+        font-size: 1em;
         margin: 0.5vw;
         z-index: 3;
     }
@@ -108,6 +117,12 @@
         .front_page_article_div {
             width: 100%;
             height: 50vh;
+        }
+
+        .front_page_article_category {
+            width: 160px;
+            height: 35px;
+            font-size: 1.2em;
         }
         h5 {
             font-size: 4.5em;
