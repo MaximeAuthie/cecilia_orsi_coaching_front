@@ -38,6 +38,7 @@
         justify-content: center;
         align-items: center;
         width: 90vw;
+        max-width: 100%;
         height: calc(90vw * 0.65);
         border-radius: 20px;
         margin-top: 5vh;
