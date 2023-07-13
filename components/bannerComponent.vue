@@ -60,7 +60,7 @@
     
 </script>
 
-<style>
+<style scoped>
     .banner {
         display: flex;
         flex-direction: column;
