@@ -2,7 +2,7 @@
 <template>
   <div class="banner" :style="{backgroundImage: articleData.bannerUrl}">
       <div class="banner_logo">
-          <img src="/logo_nav_header.png" alt="">
+          <img src="~/assets/images/logo_nav_header.png" alt="">
       </div>
       <div class="banner_title">
           <h1>{{ articleData.title }}</h1>

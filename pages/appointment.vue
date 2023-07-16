@@ -48,7 +48,7 @@
                 page: {
                     title:                      'Prendre rendez-vous',
                     bannerUrl:                  'url(https://images.pexels.com/photos/7176026/pexels-photo-7176026.jpeg)',
-                    img1Url:                    'url(villa_sante.png)',
+                    img1Url:                    "url(./assets/images/villa_sante.png)",
                     img1Alt:                    '',
                     img2Url:                    'url(https://images.pexels.com/photos/42408/pexels-photo-42408.jpeg)',
                     img2Alt:                    '',
@@ -61,7 +61,7 @@
                     {
                         title: "Qui suis-je?",
                         path: "/owner",
-                        imgUrl: "url(/cecilia-orsi.png)"
+                        imgUrl: "url(./assets/images/cecilia-orsi.png)"
                     },
                     {
                         title: "Tarifs",

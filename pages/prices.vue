@@ -45,7 +45,7 @@
                 page: {
                     title:                      'Tarifs',
                     bannerUrl:                  'url(https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg)',
-                    img1Url:                    'url(villa_sante.png)',
+                    img1Url:                    "url(./assets/images/villa_sante.png)",
                     img1Alt:                    '',
                     img2Url:                    '',
                     img2Alt:                    '',
@@ -58,7 +58,7 @@
                     {
                         title: "Qui suis-je?",
                         path: "/owner",
-                        imgUrl: "url(/cecilia-orsi.png)"
+                        imgUrl: "url(./assets/images/cecilia-orsi.png)"
                     },
                     {
                         title: "Blog",

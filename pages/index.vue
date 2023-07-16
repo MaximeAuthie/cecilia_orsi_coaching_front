@@ -19,6 +19,7 @@
 <script lang="ts">
 
     export default {
+       
         data() {
             return {
                 page: {
@@ -37,7 +38,7 @@
                     {
                         title: "Qui suis-je?",
                         path: "/owner",
-                        imgUrl: "url(/cecilia-orsi.png)"
+                        imgUrl: "url(./assets/images/cecilia-orsi.png)"
                     },
                     {
                         title: "Tarifs",

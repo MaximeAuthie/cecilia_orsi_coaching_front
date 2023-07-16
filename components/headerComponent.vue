@@ -2,7 +2,7 @@
     <header>
         <div class="header_logo" @click="closeBurgerMenu">
             <nuxt-link to="/">
-                <img src="/logo_header.png" alt="Cécilia Orsi Coaching">
+                <img src="~/assets/images/logo_header.png" alt="Cécilia Orsi Coaching">
             </nuxt-link>
         </div>
         <nav :class="actualClass">

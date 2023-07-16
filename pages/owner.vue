@@ -36,7 +36,7 @@
                 page: {
                     title:                      'Qui suis-je?',
                     bannerUrl:                  'url(https://images.pexels.com/photos/2832032/pexels-photo-2832032.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)',
-                    img1Url:                    'url(/cecilia-orsi.png)',
+                    img1Url:                    'url(./assets/images/cecilia-orsi.png)',
                     img1Alt:                    '',
                     img2Url:                    '',
                     img2Alt:                    '',
