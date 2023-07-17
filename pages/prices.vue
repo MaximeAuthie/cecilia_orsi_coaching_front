@@ -32,7 +32,7 @@
             <NuxtLink to="/appointment"><input class="button button_content" type="button" value="Prendre rendez-vous"></NuxtLink>
         </section>
         <section class="content_tiles">
-            <TileComponent v-for="tile in tilesList" :pageTitle="tile.title" :pagePath="tile.path" :pageImgUrm="tile.imgUrl" ></TileComponent>
+            <TileComponent v-for="tile in tilesList" :pageTitle="tile.title" :pagePath="tile.path" :pageImgUrm="tile.imgUrl" :fullWidth="tile.fullWidth"></TileComponent>
         </section>
     </div>
 </template>
@@ -58,27 +58,32 @@
                     {
                         title: "Qui suis-je?",
                         path: "/owner",
-                        imgUrl: "url(./assets/images/cecilia-orsi.png)"
+                        imgUrl: "url(./assets/images/cecilia-orsi.png)",
+                        fullWidth: false
                     },
                     {
                         title: "Blog",
                         path: "/blog",
-                        imgUrl: "url(https://images.pexels.com/photos/4099355/pexels-photo-4099355.jpeg)"
+                        imgUrl: "url(https://images.pexels.com/photos/4099355/pexels-photo-4099355.jpeg)",
+                        fullWidth: false
                     },
                     {
                         title: "Prendre rendez-vous",
                         path: "/appointment",
-                        imgUrl: "url(https://images.pexels.com/photos/7176026/pexels-photo-7176026.jpeg)"
+                        imgUrl: "url(https://images.pexels.com/photos/7176026/pexels-photo-7176026.jpeg)",
+                        fullWidth: false
                     },
                     {
                         title: "Contact",
                         path: "/contact",
-                        imgUrl: "url(https://images.pexels.com/photos/261599/pexels-photo-261599.jpeg)"
+                        imgUrl: "url(https://images.pexels.com/photos/261599/pexels-photo-261599.jpeg)",
+                        fullWidth: false
                     },
                     {
                         title: "Mon instagram",
                         path: "https://www.instagram.com/cecilia_orsi_coaching/",
-                        imgUrl: "url(https://images.pexels.com/photos/13288521/pexels-photo-13288521.jpeg)"
+                        imgUrl: "url(https://images.pexels.com/photos/13288521/pexels-photo-13288521.jpeg)",
+                        fullWidth: false
                     }
                 ],
                 bannerMessages: [
@@ -86,10 +91,23 @@
                 ],
             }
         },
+        mounted() {
+            const numberOfTiles = this.tilesList.length;
+            if (numberOfTiles %2 != 0) {
+                this.tilesList[numberOfTiles-1].fullWidth = true;
+            }
+        },
     };
 </script>
 
 <style scoped>
+
+    h3 {
+        margin-top: 13vh;
+    }
+    .content_description_quote {
+        margin-top: 3vh;
+    }
     .content_description_quote h3 {
         margin: 1vh 0;
     }
@@ -101,7 +119,6 @@
         height: 2px;
         background-color: #8EBBA7;
         cursor: pointer;
-        margin: ²;
     }
     
 

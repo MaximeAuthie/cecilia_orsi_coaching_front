@@ -1,6 +1,6 @@
 <template>
     <nuxt-link class="tile_link" :to="pagePath">
-        <div class="tile_div" :style="{backgroundImage: pageImgUrm}">
+        <div class="tile_div" :style="{backgroundImage: pageImgUrm}" :class="{tile_div_full_width : fullWidth}">
             <div class="tile_title">
                 <h5>{{ pageTitle }}</h5>
             </div>
@@ -23,6 +23,10 @@
             pageImgUrm: {
                 type:       String,
                 required:   true
+            },
+            fullWidth: {
+                type:       Boolean,
+                required:   true
             }
         }
     }
@@ -38,7 +42,6 @@
         justify-content: center;
         align-items: center;
         width: 90vw;
-        max-width: 100%;
         height: calc(90vw * 0.65);
         border-radius: 20px;
         margin-top: 5vh;
@@ -48,6 +51,7 @@
         position: relative;
         z-index: 1;
     }
+
     .tile_div::after {
         position: absolute;
         content: '';
@@ -82,7 +86,10 @@
         .tile_div {
             width: 25vw;
             height: calc(23vw * 0.68);
-        } 
+        }
+        .tile_div_full_width {
+            width: 53.5vw;    
+        }
     }
 
 </style>
