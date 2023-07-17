@@ -7,15 +7,15 @@
         </div>
         <nav :class="actualClass">
             <div class="header_nav_logo">
-                <img src="/logo_nav_header.png" alt="">
+                <img src="~/assets/images/logo_nav_header.png" alt="">
             </div>
             <ul class="header_nav_list">
-                <li><nuxt-link @click="openBurgerMenu" to="/" class="header_nav_list_link">Accueil</nuxt-link></li>
-                <li><nuxt-link @click="openBurgerMenu" to="owner" class="header_nav_list_link">Qui suis-je?</nuxt-link></li>
-                <li><nuxt-link @click="openBurgerMenu" to="/prices" class="header_nav_list_link">Tarifs</nuxt-link></li>
-                <li><nuxt-link @click="openBurgerMenu" to="/blog" class="header_nav_list_link">Blog</nuxt-link></li>
-                <li><nuxt-link @click="openBurgerMenu" to="/appointment" class="header_nav_list_link">Prendre rendez-vous</nuxt-link></li>
-                <li><nuxt-link @click="openBurgerMenu" to="/contact" class="header_nav_list_link">Contact</nuxt-link></li>
+                <li><nuxt-link @click="openBurgerMenu" to="/" :class="route=='/' ? 'header_nav_list_link_selected' : 'header_nav_list_link'">Accueil</nuxt-link></li>
+                <li><nuxt-link @click="openBurgerMenu" to="/owner" :class="route=='/owner' ? 'header_nav_list_link_selected' : 'header_nav_list_link'">Qui suis-je?</nuxt-link></li>
+                <li><nuxt-link @click="openBurgerMenu" to="/prices" :class="route=='/prices' ? 'header_nav_list_link_selected' : 'header_nav_list_link'">Tarifs</nuxt-link></li>
+                <li><nuxt-link @click="openBurgerMenu" to="/blog" :class="route=='/blog' ? 'header_nav_list_link_selected' : 'header_nav_list_link'">Blog</nuxt-link></li>
+                <li><nuxt-link @click="openBurgerMenu" to="/appointment" :class="route=='/appointment' ? 'header_nav_list_link_selected' : 'header_nav_list_link'">Prendre rendez-vous</nuxt-link></li>
+                <li><nuxt-link @click="openBurgerMenu" to="/contact" :class="route=='/contact' ? 'header_nav_list_link_selected' : 'header_nav_list_link'">Contact</nuxt-link></li>
             </ul>
         </nav>
         <div @click="openBurgerMenu" class="header_burger">
@@ -27,36 +27,52 @@
 </template>
 
 <script lang="ts">
-   export default {
-    data() {
-        return {
-            isMenuOpen : false,
-            actualClass: 'header_nav',
-            windowWidth: 0
-        }
-    },
-    methods: {
-        openBurgerMenu() {
-            console.log("Menu burger cliqué!");
-            this.isMenuOpen = !this.isMenuOpen;
-            this.windowWidth = window.innerWidth;
-            if (this.windowWidth < 1210) {
-                 if (this.isMenuOpen) {
-                this.actualClass = 'header_nav_open';
-                } else {
-                    this.actualClass = 'header_nav_close';
+
+    export default {
+        props: {
+            route: {
+                type: String,
+                require: true
+            }
+        },
+        data() {
+            return {
+                isMenuOpen : false,
+                actualClass: 'header_nav',
+                windowWidth: 0,
+            }
+        },
+        methods: {
+            openBurgerMenu() {
+
+                //?Changement de la valeur du booléen isOpenMenu
+                this.isMenuOpen = !this.isMenuOpen;
+
+                //?Récupération de la largeur de la fenêtre du navigateur
+                this.windowWidth = window.innerWidth;
+
+                //?Actualisation de la valeur de actualClass
+                if (this.windowWidth < 1210) {
+                    if (this.isMenuOpen) {
+                        this.actualClass = 'header_nav_open';
+                    } else {
+                        this.actualClass = 'header_nav_close';
+                    }
+                }
+            },
+            closeBurgerMenu() {
+                //?Récupération de la largeur de la fenêtre du navigateur
+                this.windowWidth = window.innerWidth;
+                
+                //?Actualisation de la valeur de actualClass
+                if (this.windowWidth < 1210) {
+                    if (this.isMenuOpen) {
+                        this.actualClass = 'header_nav_close';
+                    }
                 }
             }
         },
-        closeBurgerMenu() {
-            if (this.windowWidth < 1210) {
-                if (this.isMenuOpen) {
-                    this.actualClass = 'header_nav_close';
-                }
-            }
-        }
-    },
-   }
+    }
 </script>
 
 <style scoped>
@@ -143,11 +159,17 @@
     }
 
     .header_nav_list_link {
-        margin-left: 2vw;
         text-decoration: none;
         color: #B05447;
         text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     }
+
+    .header_nav_list_link_selected {
+        color: #FFFFFF;
+        text-decoration: none;
+        text-shadow: 0 13px 13px rgba(0, 0, 0, 0.25);
+    }
+
     .header_nav_list_link:visited {
         color: #B05447;
     }
@@ -228,6 +250,11 @@
             color:#398C7E;
             margin-left: 2vw;
         }
+
+        .header_nav_list_link_selected {
+            color: #B05447;
+            text-shadow: 0 13px 13px rgba(0, 0, 0, 0.25);
+        }
         .header_nav_list_link:visited {
             color:#398C7E;
         }
@@ -244,6 +271,11 @@
 
         .header_nav_list_link {
             color:#398C7E;
+            margin-left: 3vw;
+        }
+
+        .header_nav_list_link_selected {
+            color: #B05447;
             margin-left: 3vw;
         }
     }
