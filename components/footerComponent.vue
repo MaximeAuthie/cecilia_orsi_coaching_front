@@ -53,7 +53,7 @@
         align-items: center;
         width: 100%;
         background-color: #B05447;
-        margin-top: 5vh;
+        margin-top: 10vh;
     }
     .footer_nav_list {
         list-style: none;
