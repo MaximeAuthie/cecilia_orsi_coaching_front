@@ -87,6 +87,26 @@
             if (numberOfTiles %2 != 0) {
                 this.tilesList[numberOfTiles-1].fullWidth = true;
             }
+
+            useHead({
+                title: 'Cécilia Orsi Coaching - Qui je suis?',
+                meta: [
+                    {name: 'description', content: 'Présentation de Cécilia Orsi, coach de vie certifiée à Toulouse.'},
+                    {name:'robots', content:'index, follow'},
+                    {"http-equiv": 'Content-Language', content: 'fr'},
+                    {name: 'keywords', content: 'coach, coaching, coaching de vie, toulouse, haute-garonne, présentation'},
+                    {property: 'og:title', content: 'Cécilia Orsi Coaching - Qui je suis?'},
+                    {property: 'og:type', content: 'website'},
+                    {property: 'og:url', content:'https://www.cecilia-orsi.fr/owner'},
+                    {property: 'og:image', content: './assets/images/logo_header.png'},
+                    {property: 'og:description', content: 'Présentation de Cécilia Orsi, coach de vie certifiée à Toulouse.'},
+                    {name: 'twitter:card', content: 'summary_large_image'},
+                    {name: 'twitter: title', content: 'Cécilia Orsi Coaching - Qui je suis?'},
+                    {name: 'twitter:description', content: 'Présentation de Cécilia Orsi, coach de vie certifiée à Toulouse.'},
+                    {name: 'twitter:image', content: './assets/images/logo_header.png'}
+                ],
+                link: [{rel: 'icon', href: './assets/images/icone_tree.png'}]
+            })
         },
     };
 </script>

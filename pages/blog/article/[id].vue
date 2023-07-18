@@ -121,6 +121,8 @@
                     bannerUrl: "url(https://images.pexels.com/photos/2128817/pexels-photo-2128817.jpeg)",
                     content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, magni. Vel commodi ex placeat ratione voluptatem, dignissimos ullam qui quam nobis dolore temporibus iusto eligendi alias, sequi sint eius possimus cumque neque. Quasi numquam rerum aperiam expedita delectus. Rem facere officia tempora dolore enim aut quisquam illo facilis vel minus quasi, voluptates perspiciatis laudantium, sit ut labore sapiente. Alias quia ad modi neque. Numquam porro maxime cum doloremque ex illo eius explicabo a molestiae corporis, vero at dolorem recusandae soluta est minus dolore temporibus, sequi necessitatibus eveniet ea veniam quam, mollitia nulla. Impedit accusamus dolores consectetur soluta, ut suscipit maxime?",
                     date: '25/03/2023',
+                    description:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, magni.',
+                    keywords : 'stress, performance, entreprise, management, burn-out',
                     user: {
                         firstName: 'Cécilia',
                         lastName: 'Orsi'
@@ -154,6 +156,26 @@
         },
         mounted() {
             this.id = this.$route.params.id.toString();
+
+            useHead({
+                title: 'Cécilia Orsi Coaching - ' + this.articleData.title,
+                meta: [
+                    {name: 'description', content: this.articleData.description},
+                    {name:'robots', content:'index, follow'},
+                    {"http-equiv": 'Content-Language', content: 'fr'},
+                    {name: 'keywords', content: this.articleData.keywords},
+                    {property: 'og:title', content: 'Cécilia Orsi Coaching - ' + this.articleData.title},
+                    {property: 'og:type', content: 'website'},
+                    {property: 'og:url', content:'https://www.cecilia-orsi.fr/blog'},
+                    {property: 'og:image', content: './assets/images/logo_header.png'},
+                    {property: 'og:description', content: this.articleData.description},
+                    {name: 'twitter:card', content: 'summary_large_image'},
+                    {name: 'twitter: title', content: 'Cécilia Orsi Coaching - ' + this.articleData.title},
+                    {name: 'twitter:description', content: this.articleData.description},
+                    {name: 'twitter:image', content: './assets/images/logo_header.png'}
+                ],
+                link: [{rel: 'icon', href: './assets/images/icone_tree.png'}]
+            })
         },
     };
   

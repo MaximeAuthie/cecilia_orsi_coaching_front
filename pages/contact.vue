@@ -198,7 +198,28 @@
             if (numberOfTiles %2 != 0) {
                 this.tilesList[numberOfTiles-1].fullWidth = true;
             }
+
+            useHead({
+                title: 'Cécilia Orsi Coaching - Contact',
+                meta: [
+                    {name: 'description', content: 'Vous avez des questions? Vous voulez en savoir plus ou prendre rendez-vous? Utilisez le formulaire de contact.'},
+                    {name:'robots', content:'index, follow'},
+                    {"http-equiv": 'Content-Language', content: 'fr'},
+                    {name: 'keywords', content: 'coach, coaching, coaching de vie, toulouse, haute-garonne, tarif, prestations'},
+                    {property: 'og:title', content: 'Cécilia Orsi Coaching - Contact'},
+                    {property: 'og:type', content: 'website'},
+                    {property: 'og:url', content:'https://www.cecilia-orsi.fr/blog'},
+                    {property: 'og:image', content: './assets/images/logo_header.png'},
+                    {property: 'og:description', content: 'Vous avez des questions? Vous voulez en savoir plus ou prendre rendez-vous? Utilisez le formulaire de contact.'},
+                    {name: 'twitter:card', content: 'summary_large_image'},
+                    {name: 'twitter: title', content: 'Cécilia Orsi Coaching - Contact'},
+                    {name: 'twitter:description', content: 'Vous avez des questions? Vous voulez en savoir plus ou prendre rendez-vous? Utilisez le formulaire de contact.'},
+                    {name: 'twitter:image', content: './assets/images/logo_header.png'}
+                ],
+                link: [{rel: 'icon', href: './assets/images/icone_tree.png'}]
+            })
         },
+        
     }
 </script>
 

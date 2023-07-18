@@ -99,6 +99,26 @@
             if (numberOfTiles %2 != 0) {
                 this.tilesList[numberOfTiles-1].fullWidth = true;
             }
+
+            useHead({
+                title: 'Cécilia Orsi Coaching - Rendez-vous',
+                meta: [
+                    {name: 'description', content: 'Prenez rendez-vous directement en ligne, par téléphone ou via le formulaire de contact.'},
+                    {name:'robots', content:'index, follow'},
+                    {"http-equiv": 'Content-Language', content: 'fr'},
+                    {name: 'keywords', content: 'coach, coaching, coaching de vie, toulouse, haute-garonne, tarif, prestations'},
+                    {property: 'og:title', content: 'Cécilia Orsi Coaching - Rendez-vous'},
+                    {property: 'og:type', content: 'website'},
+                    {property: 'og:url', content:'https://www.cecilia-orsi.fr/blog'},
+                    {property: 'og:image', content: './assets/images/logo_header.png'},
+                    {property: 'og:description', content: 'Prenez rendez-vous directement en ligne, par téléphone ou via le formulaire de contact.'},
+                    {name: 'twitter:card', content: 'summary_large_image'},
+                    {name: 'twitter: title', content: 'Cécilia Orsi Coaching - Rendez-vous'},
+                    {name: 'twitter:description', content: 'Prenez rendez-vous directement en ligne, par téléphone ou via le formulaire de contact.'},
+                    {name: 'twitter:image', content: './assets/images/logo_header.png'}
+                ],
+                link: [{rel: 'icon', href: './assets/images/icone_tree.png'}]
+            })
         },
     };
 </script>

@@ -90,6 +90,22 @@
 
             useHead({
                 title: 'Cécilia Orsi Coaching',
+                meta: [
+                    {name: 'description', content: 'Cécilia Orsi, coach de vie certifiée à Toulouse'},
+                    {name:'robots', content:'index, follow'},
+                    {"http-equiv": 'Content-Language', content: 'fr'},
+                    {name: 'keywords', content: 'coach, coaching, coaching de vie, toulouse, haute-garonne'},
+                    {property: 'og:title', content: 'Cécilia Orsi, coach de vie certifiée à Toulouse'},
+                    {property: 'og:type', content: 'website'},
+                    {property: 'og:url', content:'https://www.cecilia-orsi.fr/'},
+                    {property: 'og:image', content: './assets/images/logo_header.png'},
+                    {property: 'og:description', content: 'Coach de vie certifiée intervenant en région Toulousaine. Accompagnement personnalisé pour atteindre un mieux-être et/ou réaliser ses objectifs.'},
+                    {name: 'twitter:card', content: 'summary_large_image'},
+                    {name: 'twitter: title', content: 'Cécilia Orsi, coach de vie certifiée à Toulouse'},
+                    {name: 'twitter:description', content: 'Coach de vie certifiée intervenant en région Toulousaine. Accompagnement personnalisé pour atteindre un mieux-être et/ou réaliser ses objectifs.'},
+                    {name: 'twitter:image', content: './assets/images/logo_header.png'}
+                ],
+                link: [{rel: 'icon', href: './assets/images/icone_tree.png'}]
             })
         },
     };
