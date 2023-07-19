@@ -23,8 +23,10 @@
                 <p v-if="isEmpty.subject" class="error_message">Veuillez saisir un sujet pour votre message</p>
 
                 <label for="content">Votre message</label><br>
-                <textarea v-model="formData.content" @keyup="checkImputKeyUp" :class="isEmpty.content ? 'bad_textarea' : 'normal_textarea'"  name="content" id="content">Saisir votre message ici</textarea>
+                <textarea v-model="formData.content" @keyup="checkImputKeyUp" :class="isEmpty.content ? 'bad_textarea' : 'normal_textarea'"  name="content" id="content"></textarea>
                 <p v-if="isEmpty.content" class="error_message">Veuillez saisir un message</p>
+
+                <p v-if="serverError" class="error_message p-center" id="serverError">{{ serverResponse }}</p>
 
                 <input @click="submitForm" class="button button_form" type="button" value="Envoyer">
             </form>
@@ -39,12 +41,15 @@
 </template>
 
 <script lang="ts">
+    import ContactService from '@/services/ContactService';
 
     export default {
         data() {
             return {
                 isFormSubmit:   false as boolean,
                 isMailCorrect:  true as boolean,
+                serverResponse: '' as string,
+                serverError:    false as boolean,
                 isEmpty:  {
                     firstName:      false as boolean,
                     lastName:       false as boolean,
@@ -117,7 +122,27 @@
 
                 //? Vérifier si les saisies sont correctes
                 if (this.isEmpty.atLeastOne == false && this.isMailCorrect == true) {
-                    this.isFormSubmit = true;
+                    
+                    //? Construire l'objet à passer en paramètre de la méthode sendContactMail() du service ContactService
+                    const message = {
+                        firstName:    this.formData.firstName,
+                        lastName:     this.formData.lastName,
+                        email:        this.formData.email,
+                        subject:      this.formData.subject,
+                        content:      this.formData.content
+                    }
+                 
+                     //? Appeller la métode sendContactMail() du service ContactService
+                    ContactService.sendContactMail(message).then(response=> {
+                        
+                        if (response.code === 200) {
+                            this.isFormSubmit = true;
+                        } else {
+                            this.isFormSubmit = false;
+                            this.serverError = true;
+                            this.serverResponse = response.text;
+                        }
+                    })
                 }
             },
             resetEmptyData() { //Remet tous les booléen de l'objet isEmpty à false
