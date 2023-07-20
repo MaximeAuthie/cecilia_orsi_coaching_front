@@ -14,7 +14,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
     export default {
         props: {
             imgUrl: {
@@ -37,21 +37,22 @@
         data() {
             return {
                 activeMessageIndex: 0,
-                activeMessageText: '' as String | unknown,
-                interval: {} as ReturnType<typeof setInterval>,
+                activeMessageText: '',
+                interval: {},
             }
         },
         mounted() {
-          this.interval = setInterval(async () => {
-                if (this.activeMessageIndex < this.messages.length - 1) {
-                    this.activeMessageIndex ++;
-                } else {
-                    this.activeMessageIndex = 0;
-                }
-                console.log(this.activeMessageIndex +" - "+ this.messages.length);
-                
-                this.activeMessageText = this.messages[this.activeMessageIndex];
-            }, 4000)  
+            console.log("header chargé");
+            this.interval = setInterval(async () => {
+                    if (this.activeMessageIndex < this.messages.length - 1) {
+                        this.activeMessageIndex ++;
+                    } else {
+                        this.activeMessageIndex = 0;
+                    }
+                    console.log(this.activeMessageIndex +" - "+ this.messages.length);
+                    
+                    this.activeMessageText = this.messages[this.activeMessageIndex];
+                }, 4000)  
         },
         beforeUnmount() {
             clearInterval(this.interval);
