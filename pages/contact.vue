@@ -1,5 +1,5 @@
 <template>
-    <BannerComponent :imgUrl="page.bannerUrl" :messages="bannerMessages" :isMainButtonActive="page.isMainButtonActive" :isSecondButtonActive="page.isSecondaryButtonActive" ></BannerComponent>
+    <BannerComponent :imgUrl="pageData.bannerUrl" :messages="pageData.bannerMessages" :isMainButtonActive="pageData.isMainButtonActive" :isSecondButtonActive="pageData.isSecondaryButtonActive" ></BannerComponent>
     <div class="content">
         
         <section v-if="!isFormSubmit" class="content_form">
@@ -35,86 +35,92 @@
             <h4>Votre message à bien été envoyé.</h4>
         </section>
         <section class="content_tiles">
-            <TileComponent v-for="tile in tilesList" :pageTitle="tile.title" :pagePath="tile.path" :pageImgUrm="tile.imgUrl" :full-width="tile.fullWidth" ></TileComponent>
+            <TileComponent v-for="tile in pageData.tilesList" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
         </section>
     </div>
 </template>
 
-<script lang="ts">
+<script>
     import ContactService from '@/services/ContactService';
+    import PageService from '@/services/PageService';
 
     export default {
+        
         data() {
             return {
-                isFormSubmit:   false as boolean,
-                isMailCorrect:  true as boolean,
-                serverResponse: '' as string,
-                serverError:    false as boolean,
+                isFormSubmit:   false,
+                isMailCorrect:  true,
+                serverResponse: '',
+                serverError:    false,
                 isEmpty:  {
-                    firstName:      false as boolean,
-                    lastName:       false as boolean,
-                    email:          false as boolean,
-                    subject:        false as boolean,
-                    content:        false as boolean,
-                    atLeastOne:     false as boolean
+                    firstName:      false,
+                    lastName:       false,
+                    email:          false,
+                    subject:        false,
+                    content:        false,
+                    atLeastOne:     false
                 },
                 formData: {
-                    firstName:  '' as string,
-                    lastName:   '' as string,
-                    email:      '' as string,
-                    subject:    '' as string,
-                    content:    '' as string,
+                    firstName:  '',
+                    lastName:   '',
+                    email:      '',
+                    subject:    '',
+                    content:    '',
                 },
-                page: {
-                    title:                      'Contact',
-                    bannerUrl:                  'url(https://images.pexels.com/photos/261599/pexels-photo-261599.jpeg)',
+                pageData: {
+                    title:                      '',
+                    bannerUrl:                  '',
                     img1Url:                    '',
-                    img1Alt:                    '',
                     img2Url:                    '',
-                    img2Alt:                    '',
                     text1:                      '',
                     text2:                      '',
-                    isMainButtonActive:         true,
-                    isSecondaryButtonActive :   false
-                },
-                tilesList: [
-                    {
-                        title:  "Qui suis-je?",
-                        path:   "/owner",
-                        imgUrl: "url(./assets/images/cecilia-orsi.png)",
-                        fullWidth: false
-                    },
-                    {
-                        title:  "Tarifs",
-                        path:   "/appointment",
-                        imgUrl: "url(https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg)",
-                        fullWidth: false
-                    },
-                    {
-                        title:  "Blog",
-                        path:   "/blog",
-                        imgUrl: "url(https://images.pexels.com/photos/4099355/pexels-photo-4099355.jpeg)",
-                        fullWidth: false
-                    },
-                    {
-                        title:  "Prendre rendez-vous",
-                        path:   "/appointment",
-                        imgUrl: "url(https://images.pexels.com/photos/7176026/pexels-photo-7176026.jpeg)",
-                        fullWidth: false
-                    },
-                    {
-                        title:  "Mon instagram",
-                        path:   "https://www.instagram.com/cecilia_orsi_coaching/",
-                        imgUrl: "url(https://images.pexels.com/photos/13288521/pexels-photo-13288521.jpeg)",
-                        fullWidth: false
-                    }
-                ],
-                bannerMessages: [
-                    'Contact',
-                ],
+                    isMainButtonActive:         false,
+                    isSecondaryButtonActive :   false,
+                    tilesList: [],
+                    tilesNumber: 0,
+                    bannerMessages:[],
+                }
             }
         },
         methods: {
+            getPageData() {
+
+                //? Appeler la méthode getPageById du service PageService
+                PageService.getPageById(6).then(response => {
+                console.log("response chargée");
+
+                //? A réception de la réponse du service, renseigner l'objet pageData avec les donnée de la réponse
+                this.pageData.title =                       response.title_page;
+                this.pageData.bannerUrl =                   response.banner_url_page;
+                this.pageData.img1Url =                     response.img1_url_page;
+                this.pageData.img2Url =                     response.img2_url_page;
+                this.pageData.text1 =                       response.text1_page;
+                this.pageData.text2 =                       response.text2_page;
+                this.pageData.isMainButtonActive =          response.isMainButtonActive_page;
+                this.pageData.isSecondaryButtonActive =     response.isSecondaryButtonActive_page;
+                this.pageData.tilesList =                   response.tiles_list;
+                this.pageData.tilesNumber =                 response.tiles_list.length;
+                
+                for (let i=0 ; i<response.BannerTextsList.length; i++) {
+                    this.pageData.bannerMessages.push(response.BannerTextsList[i].content_banner_text);
+                }
+
+                //? On ajoute un proprité fullWitdh à chaque objet de this.data.tilesList (pour gérer la largueur des tuiles via une props)
+                for (let i=0 ; i<this.pageData.tilesList.length; i++) {
+                    this.pageData.tilesList[i].fullWidth = false;
+                }
+                
+                })
+                .then(() => {
+
+                    //? Si le nombre de tuile est impair, la valeur de la propriété fullWidth passe à true pour la dernière tuile
+                    if (this.pageData.tilesNumber%2 != 0) {
+                        console.log("prout");
+                        this.pageData.tilesList[this.pageData.tilesNumber-1].fullWidth = true;
+                    }
+                    console.log('bé');
+                })
+            },
             submitForm() {
                 //? Exécuter les fonction de vérification des saisies
                 this.checkImputSubmit();
@@ -133,7 +139,7 @@
                     }
                  
                      //? Appeller la métode sendContactMail() du service ContactService
-                    ContactService.sendContactMail(message).then(response=> {
+                    ContactService.sendContactMail(message).then(response => {
                         
                         if (response.code === 200) {
                             this.isFormSubmit = true;
@@ -219,10 +225,8 @@
             }
         },
         mounted() {
-            const numberOfTiles = this.tilesList.length;
-            if (numberOfTiles %2 != 0) {
-                this.tilesList[numberOfTiles-1].fullWidth = true;
-            }
+
+            this.getPageData();
 
             useHead({
                 title: 'Cécilia Orsi Coaching - Contact',
@@ -243,8 +247,7 @@
                 ],
                 link: [{rel: 'icon', href: './assets/images/icone_tree.png'}]
             })
-        },
-        
+        },      
     }
 </script>
 
