@@ -1,5 +1,5 @@
 <template>
-    <BannerComponent :imgUrl="page.bannerUrl" :messages="bannerMessages" :isMainButtonActive="page.isMainButtonActive" :isSecondButtonActive="page.isSecondaryButtonActive" ></BannerComponent>
+    <BannerComponent :imgUrl="pageData.bannerUrl" :messages="pageData.bannerMessages" :isMainButtonActive="pageData.isMainButtonActive" :isSecondButtonActive="pageData.isSecondaryButtonActive" ></BannerComponent>
     <div class="content">
         <section class="content_categories">
             <div @click="showCategories" class="content_categories_title">
@@ -14,7 +14,10 @@
                 </div>
             </div>
             <div v-if="isCategoriesVisible" class="content_categories_list">
-                <CategoryTagComponent v-for="category in categories" :name="category.name" :color="category.color"></CategoryTagComponent>
+                <CategoryTagComponent v-for="category in categories"
+                    :name="category.name"
+                    :color="category.color">
+                </CategoryTagComponent>
             </div>
         </section>
         <section class="content_articles">
@@ -25,7 +28,8 @@
                 :id="frontPageArticle.id"
                 :title="frontPageArticle.title"
                 :bannerUrl="frontPageArticle.bannerUrl"
-                :categories="frontPageArticle.categories"></ArticlesFrontPageComponent>
+                :categories="frontPageArticle.categories">
+            </ArticlesFrontPageComponent>
             <div class="content_articles_list">
                 <ArticlesTileComponent v-for="article in articles"
                     :id="article.id"
@@ -50,229 +54,145 @@
         <br>
         <br>
         <section class="content_tiles">
-            <TileComponent v-for="tile in tilesList" :pageTitle="tile.title" :pagePath="tile.path" :pageImgUrm="tile.imgUrl" :fullWidth="tile.fullWidth"></TileComponent>
+            <TileComponent v-for="tile in pageData.tilesList" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
         </section>
     </div>
 </template>
 
-<script lang="ts">
-import { truncateSync } from 'fs';
-
+<script>
+import PageService from '@/services/PageService';
+import ArticleService from '@/services/ArticleService';
+import CategoryService from '@/services/CategorieService';
 
     export default {
         data() {
             return {
                 isMoreThenNineArticles: false,
-                page: {
-                    title:                      'Blog',
-                    bannerUrl:                  'url(https://images.pexels.com/photos/4099355/pexels-photo-4099355.jpeg)',
+                pageData: {
+                    title:                      '',
+                    bannerUrl:                  '',
                     img1Url:                    '',
-                    img1Alt:                    '',
                     img2Url:                    '',
-                    img2Alt:                    '',
                     text1:                      '',
                     text2:                      '',
-                    isMainButtonActive:         true,
-                    isSecondaryButtonActive :   true
+                    isMainButtonActive:         false,
+                    isSecondaryButtonActive :   false,
+                    tilesList: [],
+                    tilesNumber: 0,
+                    bannerMessages:[],
                 },
-                tilesList: [
-                    {
-                        title:  "Qui suis-je?",
-                        path:   "/owner",
-                        imgUrl: "url(./assets/images/cecilia-orsi.png)",
-                        fullWidth: false
-                    },
-                    {
-                        title:  "Tarifs",
-                        path:   "/appointment",
-                        imgUrl: "url(https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg)",
-                        fullWidth: false
-                    },
-                    {
-                        title:  "Prendre rendez-vous",
-                        path:   "/appointment",
-                        imgUrl: "url(https://images.pexels.com/photos/7176026/pexels-photo-7176026.jpeg)",
-                        fullWidth: false
-                    },
-                    {
-                        title:  "Contact",
-                        path:   "/contact",
-                        imgUrl: "url(https://images.pexels.com/photos/261599/pexels-photo-261599.jpeg)",
-                        fullWidth: false
-                    },
-                    {
-                        title:  "Mon instagram",
-                        path:   "https://www.instagram.com/cecilia_orsi_coaching/",
-                        imgUrl: "url(https://images.pexels.com/photos/13288521/pexels-photo-13288521.jpeg)",
-                        fullWidth: false
-                    }
-                ],
-                bannerMessages: [
-                    'Blog',
-                ],
-                categories : [
-                    {
-                        name:   "Santé",
-                        color:  "#8EBBA7"
-                    },
-                    {
-                        name:   "Sport",
-                        color:  "#E27437"
-                    },
-                    {
-                        name:   "Bien-être",
-                        color:  "#B05447"
-                    },
-                    {
-                        name:   "Famille",
-                        color:  "#7A9491"
-                    },
-                    {
-                        name:   "Travail",
-                        color:  "#C6BDB4"
-                    },
-                    {
-                        name:   "Vie sociale",
-                        color:  "#DFA689"
-                    },
-                    {
-                        name:   "Nature",
-                        color:  "#398C7E"
-                    },
-                    {
-                        name:   "Alimentation",
-                        color:  "#6C89B4"
-                    },
-                ],
+                categories : [],
                 isCategoriesVisible: true,
-                frontPageArticle: {
-                    id:             10,
-                    title:          "Vacances d'été - s'assumer enfin",
-                    bannerUrl:         "url(https://images.pexels.com/photos/2538225/pexels-photo-2538225.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
-                    user: {
-                            firstName: 'Cécilia',
-                            lastName: 'Orsi'
-                        },
-                    categories: [
-                        {
-                            name:   "Bien-être",
-                            color:  "#B05447"
-                        },
-                        {
-                            name:   "Santé",
-                            color:  "#8EBBA7"
-                        },
-                    ]
-                },
-                articles: [
-                    {
-                        id: 10,
-                        title: 'Notre rapport à la nature',
-                        bannerUrl: "url(https://images.pexels.com/photos/2832032/pexels-photo-2832032.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
-                        summary: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, magni. Vel commodi ex placeat ratione voluptatem, dignissimos ullam qui quam nobis dolore temporibus iusto eligendi alias, sequi sint eius possimus cumque neque. Quasi numquam rerum aperiam expedita delectus. Rem facere officia tempora dolore enim aut quisquam illo facilis vel minus quasi, voluptates perspiciatis laudantium, sit ut labore sapiente. Alias quia ad modi neque. Numquam porro maxime cum doloremque ex illo eius explicabo a molestiae corporis, vero at dolorem recusandae soluta est minus dolore temporibus, sequi necessitatibus eveniet ea veniam quam, mollitia nulla. Impedit accusamus dolores consectetur soluta, ut suscipit maxime?",
-                        date: '25/03/2023',
-                        user: {
-                            firstName: 'Cécilia',
-                            lastName: 'Orsi'
-                        },
-                        categories: [
-                            {
-                                name:   "Bien-être",
-                                color:  "#B05447"
-                            },
-                            {
-                                name:   "Santé",
-                                color:  "#8EBBA7"
-                            },
-                        ]
-                    },
-                    {
-                        id: 9,
-                        title: 'Télétravailler - bonne ou mauvaise idée?',
-                        bannerUrl: "url(https://images.pexels.com/photos/15372903/pexels-photo-15372903/free-photo-of-bureau-technologie-ranger-clavier-mecanique.jpeg)",
-                        summary: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, magni. Vel commodi ex placeat ratione voluptatem, dignissimos ullam qui quam nobis dolore temporibus iusto eligendi alias, sequi sint eius possimus cumque neque. Quasi numquam rerum aperiam expedita delectus. Rem facere officia tempora dolore enim aut quisquam illo facilis vel minus quasi, voluptates perspiciatis laudantium, sit ut labore sapiente. Alias quia ad modi neque. Numquam porro maxime cum doloremque ex illo eius explicabo a molestiae corporis, vero at dolorem recusandae soluta est minus dolore temporibus, sequi necessitatibus eveniet ea veniam quam, mollitia nulla. Impedit accusamus dolores consectetur soluta, ut suscipit maxime?",
-                        date: '25/03/2023',
-                        user: {
-                            firstName: 'Cécilia',
-                            lastName: 'Orsi'
-                        },
-                        categories: [
-                            {
-                                name:   "Travail",
-                                color:  "#C6BDB4"
-                            },
-                            {
-                                name:   "Santé",
-                                color:  "#8EBBA7"
-                            },
-                        ]
-                    },
-                    {
-                        id: 8,
-                        title: 'Maladies chroniques et errances médicales',
-                        bannerUrl: "url(https://images.pexels.com/photos/4226769/pexels-photo-4226769.jpeg)",
-                        summary: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, magni. Vel commodi ex placeat ratione voluptatem, dignissimos ullam qui quam nobis dolore temporibus iusto eligendi alias, sequi sint eius possimus cumque neque. Quasi numquam rerum aperiam expedita delectus. Rem facere officia tempora dolore enim aut quisquam illo facilis vel minus quasi, voluptates perspiciatis laudantium, sit ut labore sapiente. Alias quia ad modi neque. Numquam porro maxime cum doloremque ex illo eius explicabo a molestiae corporis, vero at dolorem recusandae soluta est minus dolore temporibus, sequi necessitatibus eveniet ea veniam quam, mollitia nulla. Impedit accusamus dolores consectetur soluta, ut suscipit maxime?",
-                        date: '25/03/2023',
-                        user: {
-                            firstName: 'Cécilia',
-                            lastName: 'Orsi'
-                        },
-                        categories: [
-                            {
-                                name:   "Bien-être",
-                                color:  "#B05447"
-                            },
-                                    {
-                                name:   "Santé",
-                                color:  "#8EBBA7"
-                            },
-                        ]
-                    },
-                    {
-                        id: 7,
-                        title: 'Stress et performance en entreprise',
-                        bannerUrl: "url(https://images.pexels.com/photos/2128817/pexels-photo-2128817.jpeg)",
-                        summary: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, magni. Vel commodi ex placeat ratione voluptatem, dignissimos ullam qui quam nobis dolore temporibus iusto eligendi alias, sequi sint eius possimus cumque neque. Quasi numquam rerum aperiam expedita delectus. Rem facere officia tempora dolore enim aut quisquam illo facilis vel minus quasi, voluptates perspiciatis laudantium, sit ut labore sapiente. Alias quia ad modi neque. Numquam porro maxime cum doloremque ex illo eius explicabo a molestiae corporis, vero at dolorem recusandae soluta est minus dolore temporibus, sequi necessitatibus eveniet ea veniam quam, mollitia nulla. Impedit accusamus dolores consectetur soluta, ut suscipit maxime?",
-                        date: '25/03/2023',
-                        user: {
-                            firstName: 'Cécilia',
-                            lastName: 'Orsi'
-                        },
-                        categories: [
-                            {
-                                name:   "Travail",
-                                color:  "#C6BDB4"
-                            },
-                            {
-                                name:   "Santé",
-                                color:  "#8EBBA7"
-                            },
-                        ]
-                    },
-                ]
+                frontPageArticle: {},
+                articles: []
             }
         },
         methods: {
+            getArticles() {
+                const dateOptions = {year: "numeric", month: "2-digit", day: "2-digit"};
+                //? Appeler la méthode getAllArtivles du service ArticleService
+                ArticleService.getAllArticles()
+                .then(response => {
+                    console.log(response);
+                    for (let i=0 ; i<response.length ; i++) {
+                        const articleCategories = [];
+                        const articleDate = new Date(response[i].date_article);
+                        for (let j=0 ; j<response[i].categories_list.length; j++) {
+                            articleCategories.push(response[i].categories_list[j]);
+                        }
+
+                        const article = {
+                            id:             response[i].id,
+                            title:          response[i].title_article,
+                            bannerUrl:      response[i].banner_url_article,
+                            summary:        response[i].summary_article,
+                            date:           articleDate.toLocaleDateString("fr-FR", dateOptions),
+                            user: {
+                                firstName:  response[i].user.first_name_user,
+                                lastName:   response[i].user.last_name_user,
+                            },
+                            categories:     articleCategories
+                        }
+                        if (i==response.length - 1) {
+                            this.frontPageArticle = article;
+                            continue;
+                        }
+
+                        this.articles.push(article);
+                    }
+                });
+            },
+            getCategories() {
+                CategoryService.getAllCategories()
+                .then(response => {
+                    for (let i=0 ; i<response.length ; i++) {
+                        const category = {
+                            name:   response[i].name_category,
+                            color:  response[i].color_category
+                        }
+
+                        this.categories.push(category);
+                    }
+                })
+            },
             showCategories() {
                 this.isCategoriesVisible = !this.isCategoriesVisible;
             },
             showMoreArticles() {
 
-            }
+            },
+            getPageData() {
+
+                //? Appeler la méthode getPageById du service PageService
+                PageService.getPageById(4)
+                    .then(response => {
+                        console.log("response chargée");
+
+                        //? A réception de la réponse du service, renseigner l'objet pageData avec les donnée de la réponse
+                        this.pageData.title =                       response.title_page;
+                        this.pageData.bannerUrl =                   response.banner_url_page;
+                        this.pageData.img1Url =                     response.img1_url_page;
+                        this.pageData.img2Url =                     response.img2_url_page;
+                        this.pageData.text1 =                       response.text1_page;
+                        this.pageData.text2 =                       response.text2_page;
+                        this.pageData.isMainButtonActive =          response.isMainButtonActive_page;
+                        this.pageData.isSecondaryButtonActive =     response.isSecondaryButtonActive_page;
+                        this.pageData.tilesList =                   response.tiles_list;
+                        this.pageData.tilesNumber =                 response.tiles_list.length;
+
+                        for (let i=0 ; i<response.BannerTextsList.length; i++) {
+                            this.pageData.bannerMessages.push(response.BannerTextsList[i].content_banner_text);
+                        }
+
+                        //? On ajoute un proprité fullWitdh à chaque objet de this.data.tilesList (pour gérer la largueur des tuiles via une props)
+                        for (let i=0 ; i<this.pageData.tilesList.length; i++) {
+                            this.pageData.tilesList[i].fullWidth = false;
+                        }
+                    })
+                    .then(() => {
+
+                        //? Si le nombre de tuile est impair, la valeur de la propriété fullWidth passe à true pour la dernière tuile
+                        if (this.pageData.tilesNumber%2 != 0) {
+                            console.log("prout");
+                            this.pageData.tilesList[this.pageData.tilesNumber-1].fullWidth = true;
+                        }
+                        console.log('bé');
+                    })
+            },
         },
         mounted() {
+            
+            //? Exécution de la méthode récupérant les données de la page dans la BDD et qui les place dans l'objet this.pageData
+            this.getPageData();
+            this.getArticles();
+            this.getCategories();
 
-            //?Vérifier le nombre d'article pour afficher la barre "voir plus"
+            //?Vérifier le nombre d'articles pour afficher la barre "voir plus"
             if (this.articles.length > 9) {
                 this.isMoreThenNineArticles = true;
             }
 
-            //?Vérifier di le nombre de tuiles est impair pour mettre la dernière tuile en fullWidth
-            const numberOfTiles = this.tilesList.length;
-            if (numberOfTiles %2 != 0) {
-                this.tilesList[numberOfTiles-1].fullWidth = true;
-            }
-
+            //? Renseigner les balises HTML de <head> pour le SEO
             useHead({
                 title: 'Cécilia Orsi Coaching - Blog',
                 meta: [
