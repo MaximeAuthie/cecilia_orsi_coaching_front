@@ -2,8 +2,8 @@
     <div class="front_page_article_div" :style="{backgroundImage: bannerUrl}">
 
         <div class="front_page_article_div_categories">
-            <div v-for="category in categories" class="front_page_article_category" :style="{backgroundColor: category.color, borderColor: category.color}">
-                <span class="front_page_article_category_title"> {{ category.name }} </span>
+            <div v-for="category in categories" class="front_page_article_category" :style="{backgroundColor: category.color_category, borderColor: category.color_category}">
+                <span class="front_page_article_category_title"> {{ category.name_category }} </span>
             </div>
         </div>
         <div class="front_page_article_title">

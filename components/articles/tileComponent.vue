@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="article_div_categories">
-                <ArticlesCategoryTagComponent v-for="category in categories" :name="category.name" :color="category.color"></ArticlesCategoryTagComponent>
+                <ArticlesCategoryTagComponent v-for="category in categories" :name="category.name_category" :color="category.color_category"></ArticlesCategoryTagComponent>
             </div>
             <div class="article_div_summary">
                 <p>{{ summary.substring(0, 400) + "..." }}</p>
