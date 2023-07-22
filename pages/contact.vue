@@ -226,8 +226,10 @@
         },
         mounted() {
 
+            //? Exécution de la méthode récupérant les données de la page dans la BDD et qui les place dans l'objet this.pageData
             this.getPageData();
 
+            //? Renseigner les balises HTML de <head< pour le SEO
             useHead({
                 title: 'Cécilia Orsi Coaching - Contact',
                 meta: [

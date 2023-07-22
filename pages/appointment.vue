@@ -1,12 +1,12 @@
 <template>
-    <BannerComponent :imgUrl="page.bannerUrl" :messages="bannerMessages" :isMainButtonActive="page.isMainButtonActive" :isSecondButtonActive="page.isSecondaryButtonActive" ></BannerComponent>
+    <BannerComponent :imgUrl="pageData.bannerUrl" :messages="pageData.bannerMessages" :isMainButtonActive="pageData.isMainButtonActive" :isSecondButtonActive="pageData.isSecondaryButtonActive" ></BannerComponent>
     <div class="content">
         <section class="content_description">
             <div class="content_description_images">
-                <div class="content_description_image" :style="{backgroundImage: page.img1Url}">
+                <div class="content_description_image" :style="{backgroundImage: pageData.img1Url}">
                     <h5>A la Villa Santé</h5>
                 </div>
-                <div class="content_description_image" :style="{backgroundImage: page.img2Url}">
+                <div class="content_description_image" :style="{backgroundImage: pageData.img2Url}">
                     <h5>En visio</h5>
                 </div>
             </div>
@@ -35,70 +35,78 @@
             
         </section>
         <section class="content_tiles">
-            <TileComponent v-for="tile in tilesList" :pageTitle="tile.title" :pagePath="tile.path" :pageImgUrm="tile.imgUrl" :fullWidth="tile.fullWidth"></TileComponent>
+            <TileComponent v-for="tile in pageData.tilesList" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
         </section>
     </div>
 </template>
 
-<script lang="ts">
+<script>
+    import PageService from '@/services/PageService';
 
     export default {
         data() {
             return {
-                page: {
-                    title:                      'Prendre rendez-vous',
-                    bannerUrl:                  'url(https://images.pexels.com/photos/7176026/pexels-photo-7176026.jpeg)',
-                    img1Url:                    "url(./assets/images/villa_sante.png)",
-                    img1Alt:                    '',
-                    img2Url:                    'url(https://images.pexels.com/photos/42408/pexels-photo-42408.jpeg)',
-                    img2Alt:                    '',
+                pageData: {
+                    title:                      '',
+                    bannerUrl:                  '',
+                    img1Url:                    '',
+                    img2Url:                    '',
                     text1:                      '',
-                    text2:                      '', 
+                    text2:                      '',
                     isMainButtonActive:         false,
-                    isSecondaryButtonActive :   true
-                },
-                tilesList: [
-                    {
-                        title: "Qui suis-je?",
-                        path: "/owner",
-                        imgUrl: "url(./assets/images/cecilia-orsi.png)",
-                        fullWidth: false
-                    },
-                    {
-                        title: "Tarifs",
-                        path: "/appointment",
-                        imgUrl: "url(https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg)",
-                        fullWidth: false
-                    },
-                    {
-                        title: "Blog",
-                        path: "/blog",
-                        imgUrl: "url(https://images.pexels.com/photos/4099355/pexels-photo-4099355.jpeg)",
-                        fullWidth: false
-                    },
-                    {
-                        title: "Contact",
-                        path: "/contact",
-                        imgUrl: "url(https://images.pexels.com/photos/261599/pexels-photo-261599.jpeg)",
-                        fullWidth: false
-                    },
-                    {
-                        title: "Mon instagram",
-                        path: "https://www.instagram.com/cecilia_orsi_coaching/",
-                        imgUrl: "url(https://images.pexels.com/photos/13288521/pexels-photo-13288521.jpeg)",
-                        fullWidth: false
-                    }
-                ],
-                bannerMessages: [
-                    'Prendre rendez-vous'
-                ],
+                    isSecondaryButtonActive :   false,
+                    tilesList: [],
+                    tilesNumber: 0,
+                    bannerMessages:[],
+                }
             }
         },
+        methods: {
+            getPageData() {
+
+                //? Appeler la méthode getPageById du service PageService
+                PageService.getPageById(5)
+                .then(response => {
+                    console.log("response chargée");
+
+                    //? A réception de la réponse du service, renseigner l'objet pageData avec les donnée de la réponse
+                    this.pageData.title =                       response.title_page;
+                    this.pageData.bannerUrl =                   response.banner_url_page;
+                    this.pageData.img1Url =                     response.img1_url_page;
+                    this.pageData.img2Url =                     response.img2_url_page;
+                    this.pageData.text1 =                       response.text1_page;
+                    this.pageData.text2 =                       response.text2_page;
+                    this.pageData.isMainButtonActive =          response.isMainButtonActive_page;
+                    this.pageData.isSecondaryButtonActive =     response.isSecondaryButtonActive_page;
+                    this.pageData.tilesList =                   response.tiles_list;
+                    this.pageData.tilesNumber =                 response.tiles_list.length;
+
+                    for (let i=0 ; i<response.BannerTextsList.length; i++) {
+                        this.pageData.bannerMessages.push(response.BannerTextsList[i].content_banner_text);
+                    }
+
+                    //? On ajoute un proprité fullWitdh à chaque objet de this.data.tilesList (pour gérer la largueur des tuiles via une props)
+                    for (let i=0 ; i<this.pageData.tilesList.length; i++) {
+                        this.pageData.tilesList[i].fullWidth = false;
+                    }
+                })
+                .then(() => {
+
+                    //? Si le nombre de tuile est impair, la valeur de la propriété fullWidth passe à true pour la dernière tuile
+                    if (this.pageData.tilesNumber%2 != 0) {
+                        console.log("prout");
+                        this.pageData.tilesList[this.pageData.tilesNumber-1].fullWidth = true;
+                    }
+                    console.log('bé');
+                })
+                },
+        },
         mounted() {
-            const numberOfTiles = this.tilesList.length;
-            if (numberOfTiles %2 != 0) {
-                this.tilesList[numberOfTiles-1].fullWidth = true;
-            }
+
+            //? Exécution de la méthode récupérant les données de la page dans la BDD et qui les place dans l'objet this.pageData
+            this.getPageData();
+
+            //? Renseigner les balises HTML de <head> pour le SEO
 
             useHead({
                 title: 'Cécilia Orsi Coaching - Rendez-vous',
