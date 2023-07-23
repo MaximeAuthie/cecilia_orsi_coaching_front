@@ -1,5 +1,5 @@
 <template>
-    <BannerComponent :imgUrl="pageData.bannerUrl" :messages="pageData.bannerMessages" :isMainButtonActive="pageData.isMainButtonActive" :isSecondButtonActive="pageData.isSecondaryButtonActive" ></BannerComponent>
+    <BannerComponent v-if="pageDataDownload" :imgUrl="pageData.banner_url_page" :messages="pageData.BannerTextsList" :isMainButtonActive="pageData.isMainButtonActive_page" :isSecondButtonActive="pageData.isSecondaryButtonActive_page" ></BannerComponent>
     <div class="content">
         <section class="content_categories">
             <div @click="showCategories" class="content_categories_title">
@@ -15,8 +15,8 @@
             </div>
             <div v-if="isCategoriesVisible" class="content_categories_list">
                 <CategoryTagComponent v-for="category in categories"
-                    :name="category.name"
-                    :color="category.color">
+                    :name="category.name_category"
+                    :color="category.color_category">
                 </CategoryTagComponent>
             </div>
         </section>
@@ -26,19 +26,19 @@
             </div>
             <ArticlesFrontPageComponent
                 :id="frontPageArticle.id"
-                :title="frontPageArticle.title"
-                :bannerUrl="frontPageArticle.bannerUrl"
-                :categories="frontPageArticle.categories">
+                :title="frontPageArticle.title_article"
+                :bannerUrl="frontPageArticle.banner_url_article"
+                :categories="frontPageArticle.categories_list">
             </ArticlesFrontPageComponent>
             <div class="content_articles_list">
                 <ArticlesTileComponent v-for="article in articles"
                     :id="article.id"
-                    :title="article.title"
-                    :bannerUrl="article.bannerUrl"
-                    :summary="article.summary"
-                    :date="article.date"
+                    :title="article.title_article"
+                    :bannerUrl="article.banner_url_article"
+                    :summary="article.summary_article"
+                    :date="article.date_article"
                     :user="article.user"
-                    :categories="article.categories"
+                    :categories="article.categories_list"
                 ></ArticlesTileComponent>
             </div>
             <div v-if="isMoreThenNineArticles" class="content_articles_more">
@@ -54,86 +54,75 @@
         <br>
         <br>
         <section class="content_tiles">
-            <TileComponent v-for="tile in pageData.tilesList" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
+            <TileComponent v-for="tile in pageData.tiles_list" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
         </section>
     </div>
 </template>
 
 <script>
-import PageService from '@/services/PageService';
-import ArticleService from '@/services/ArticleService';
 import CategoryService from '@/services/CategorieService';
+import { usePagesStore } from '@/store/page';
+import { useArticlesStore } from '@/store/article';
+import { useCategoriesStore } from '@/store/category'
 
     export default {
         data() {
             return {
-                isMoreThenNineArticles: false,
-                pageData: {
-                    title:                      '',
-                    bannerUrl:                  '',
-                    img1Url:                    '',
-                    img2Url:                    '',
-                    text1:                      '',
-                    text2:                      '',
-                    isMainButtonActive:         false,
-                    isSecondaryButtonActive :   false,
-                    tilesList: [],
-                    tilesNumber: 0,
-                    bannerMessages:[],
-                },
-                categories : [],
-                isCategoriesVisible: true,
-                frontPageArticle: {},
-                articles: []
+                pageId:                     3,
+                isMoreThenNineArticles:     false,
+                pageData:                   {},
+                categories :                [],
+                isCategoriesVisible:        false,
+                frontPageArticle:           {},
+                articles:                   []
             }
         },
         methods: {
             getArticles() {
-                const dateOptions = {year: "numeric", month: "2-digit", day: "2-digit"};
-                //? Appeler la méthode getAllArtivles du service ArticleService
-                ArticleService.getAllArticles()
-                .then(response => {
-                    console.log(response);
-                    for (let i=0 ; i<response.length ; i++) {
-                        const articleCategories = [];
-                        const articleDate = new Date(response[i].date_article);
-                        for (let j=0 ; j<response[i].categories_list.length; j++) {
-                            articleCategories.push(response[i].categories_list[j]);
-                        }
+                const store = useArticlesStore();
 
-                        const article = {
-                            id:             response[i].id,
-                            title:          response[i].title_article,
-                            bannerUrl:      response[i].banner_url_article,
-                            summary:        response[i].summary_article,
-                            date:           articleDate.toLocaleDateString("fr-FR", dateOptions),
-                            user: {
-                                firstName:  response[i].user.first_name_user,
-                                lastName:   response[i].user.last_name_user,
-                            },
-                            categories:     articleCategories
-                        }
-                        if (i==response.length - 1) {
-                            this.frontPageArticle = article;
-                            continue;
-                        }
+                //? Vérifier si les articles sont toujours présents dans le store
+                if (store.articles.length > 0) {
+                    this.articles           = store.articles;
+                    this.frontPageArticle   = store.frontPageArticle;
+                    this.loading            = false;
+                } else {
 
-                        this.articles.push(article);
-                    }
-                });
+                //? Si les articles ne sont pas déjà présents dans le store, effectuer l'appel API
+                store.getAllArticles()
+                    .then(() => {
+                    this.articles           = store.articles;
+                    this.frontPageArticle   = store.frontPageArticle;
+                    this.loading            = false;
+                    })
+
+                    //? En cas d'erreur inattendue, capter l'erreur rencontrée
+                    .catch((error) => {
+                    console.error('Erreur lors de la récupération des articles :', error);
+                    this.loading            = false;
+                    });
+                }
+
             },
             getCategories() {
-                CategoryService.getAllCategories()
-                .then(response => {
-                    for (let i=0 ; i<response.length ; i++) {
-                        const category = {
-                            name:   response[i].name_category,
-                            color:  response[i].color_category
-                        }
+                const store = useCategoriesStore();
 
-                        this.categories.push(category);
-                    }
-                })
+                //? Vérifier si les articles sont toujours présents dans le store
+                if (store.categories.length > 0) {
+                    this.categories           = store.categories;
+                } else {
+
+                //? Si les articles ne sont pas déjà présents dans le store, effectuer l'appel API
+                store.getAllCategories()
+                    .then(() => {
+                    this.categories           = store.categories;
+                    })
+
+                    //? En cas d'erreur inattendue, capter l'erreur rencontrée
+                    .catch((error) => {
+                    console.error('Erreur lors de la récupération des articles :', error);
+                    });
+                }
             },
             showCategories() {
                 this.isCategoriesVisible = !this.isCategoriesVisible;
@@ -142,46 +131,46 @@ import CategoryService from '@/services/CategorieService';
 
             },
             getPageData() {
+                const store = usePagesStore();
 
-                //? Appeler la méthode getPageById du service PageService
-                PageService.getPageById(4)
-                    .then(response => {
-                        console.log("response chargée");
+                //? Vérifier si les articles sont toujours présents dans le store
+                if (store.pages.length > 0) {
+                    this.pageData       = store.pages[this.pageId];
+                    this.addTilesWidth();
+                    this.pageDataDownload   = true;
+                } else {
 
-                        //? A réception de la réponse du service, renseigner l'objet pageData avec les donnée de la réponse
-                        this.pageData.title =                       response.title_page;
-                        this.pageData.bannerUrl =                   response.banner_url_page;
-                        this.pageData.img1Url =                     response.img1_url_page;
-                        this.pageData.img2Url =                     response.img2_url_page;
-                        this.pageData.text1 =                       response.text1_page;
-                        this.pageData.text2 =                       response.text2_page;
-                        this.pageData.isMainButtonActive =          response.isMainButtonActive_page;
-                        this.pageData.isSecondaryButtonActive =     response.isSecondaryButtonActive_page;
-                        this.pageData.tilesList =                   response.tiles_list;
-                        this.pageData.tilesNumber =                 response.tiles_list.length;
-
-                        for (let i=0 ; i<response.BannerTextsList.length; i++) {
-                            this.pageData.bannerMessages.push(response.BannerTextsList[i].content_banner_text);
-                        }
-
-                        //? On ajoute un proprité fullWitdh à chaque objet de this.data.tilesList (pour gérer la largueur des tuiles via une props)
-                        for (let i=0 ; i<this.pageData.tilesList.length; i++) {
-                            this.pageData.tilesList[i].fullWidth = false;
-                        }
-                    })
+                //? Si les articles ne sont pas déjà présents dans le store, effectuer l'appel API
+                store.getAllPages()
                     .then(() => {
-
-                        //? Si le nombre de tuile est impair, la valeur de la propriété fullWidth passe à true pour la dernière tuile
-                        if (this.pageData.tilesNumber%2 != 0) {
-                            console.log("prout");
-                            this.pageData.tilesList[this.pageData.tilesNumber-1].fullWidth = true;
-                        }
-                        console.log('bé');
+                    this.pageData       = store.pages[this.pageId];
+                    this.addTilesWidth();
+                    this.pageDataDownload   = true;
                     })
+
+                    //? En cas d'erreur inattendue, capter l'erreur rencontrée
+                    .catch((error) => {
+                    console.error('Erreur lors de la récupération des articles :', error);
+                    this.pageDataDownload   = false;
+                    });
+                }
+
+                
+            },
+            addTilesWidth() {
+                //? On ajoute un proprité fullWitdh à chaque objet de this.data.tilesList (pour gérer la largueur des tuiles via une props)
+                let tilesNumber = this.pageData.tiles_list.length;
+                for (let i=0 ; i<tilesNumber; i++) {
+                        this.pageData.tiles_list[i].fullWidth = false;
+                    }
+
+                //? Si le nombre de tuiles est impair, la valeur de la propriété fullWidth passe à true pour la dernière tuile
+                if (tilesNumber%2 != 0) {
+                        this.pageData.tiles_list[tilesNumber-1].fullWidth = true;
+                    }
             },
         },
         mounted() {
-            
             //? Exécution de la méthode récupérant les données de la page dans la BDD et qui les place dans l'objet this.pageData
             this.getPageData();
             this.getArticles();
