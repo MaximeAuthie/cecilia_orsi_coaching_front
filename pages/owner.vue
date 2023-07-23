@@ -1,8 +1,8 @@
 <template>
-    <BannerComponent :imgUrl="pageData.bannerUrl" :messages="pageData.bannerMessages" :isMainButtonActive="pageData.isMainButtonActive" :isSecondButtonActive="pageData.isSecondaryButtonActive" ></BannerComponent>
+    <BannerComponent v-if="pageDataDownload" :imgUrl="pageData.banner_url_page" :messages="pageData.BannerTextsList" :isMainButtonActive="pageData.isMainButtonActive_page" :isSecondButtonActive="pageData.isSecondaryButtonActive_page" ></BannerComponent>
     <div class="content">
         <section class="content_description">
-            <div class="content_description_avatar" :style="{backgroundImage: pageData.img1Url}"></div>
+            <div class="content_description_avatar" :style="{backgroundImage: pageData.img1_url_page}"></div>
             <p>
                 Je m’appelle Cécilia Orsi, j’ai 31 ans je vis à Toulouse.<br>
                 <br>
@@ -23,71 +23,62 @@
             <NuxtLink to="/appointment"><input class="button button_content" type="button" value="Prendre rendez-vous"></NuxtLink>
         </section>
         <section class="content_tiles">
-            <TileComponent v-for="tile in pageData.tilesList" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
+            <TileComponent v-for="tile in pageData.tiles_list" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
         </section>
     </div>
 </template>
 
 <script>
-    import PageService from '@/services/PageService';
+    import { usePagesStore } from '@/store/page';
 
     export default {
         data() {
             return {
-                pageData: {
-                    title:                      '',
-                    bannerUrl:                  '',
-                    img1Url:                    '',
-                    img2Url:                    '',
-                    text1:                      '',
-                    text2:                      '',
-                    isMainButtonActive:         false,
-                    isSecondaryButtonActive :   false,
-                    tilesList: [],
-                    tilesNumber: 0,
-                    bannerMessages:[],
-                }
+                pageId :            1,
+                pageData :          {},
+                pageDataDownload :  false
             }
         },
         methods: {
             getPageData() {
+                const store = usePagesStore();
 
-                //? Appeler la méthode getPageById du service PageService
-                PageService.getPageById(2)
-                .then(response => {
-                    console.log("response chargée");
+                //? Vérifier si les articles sont toujours présents dans le store
+                if (store.pages.length > 0) {
+                    this.pageData       = store.pages[this.pageId];
+                    this.addTilesWidth();
+                    this.pageDataDownload   = true;
+                } else {
 
-                    //? A réception de la réponse du service, renseigner l'objet pageData avec les donnée de la réponse
-                    this.pageData.title =                       response.title_page;
-                    this.pageData.bannerUrl =                   response.banner_url_page;
-                    this.pageData.img1Url =                     response.img1_url_page;
-                    this.pageData.img2Url =                     response.img2_url_page;
-                    this.pageData.text1 =                       response.text1_page;
-                    this.pageData.text2 =                       response.text2_page;
-                    this.pageData.isMainButtonActive =          response.isMainButtonActive_page;
-                    this.pageData.isSecondaryButtonActive =     response.isSecondaryButtonActive_page;
-                    this.pageData.tilesList =                   response.tiles_list;
-                    this.pageData.tilesNumber =                 response.tiles_list.length;
+                //? Si les articles ne sont pas déjà présents dans le store, effectuer l'appel API
+                store.getAllPages()
+                    .then(() => {
+                    this.pageData       = store.pages[this.pageId];
+                    this.addTilesWidth();
+                    this.pageDataDownload   = true;
+                    })
 
-                    for (let i=0 ; i<response.BannerTextsList.length; i++) {
-                        this.pageData.bannerMessages.push(response.BannerTextsList[i].content_banner_text);
+                    //? En cas d'erreur inattendue, capter l'erreur rencontrée
+                    .catch((error) => {
+                    console.error('Erreur lors de la récupération des articles :', error);
+                    this.pageDataDownload   = false;
+                    });
+                }
+
+                
+            },
+            addTilesWidth() {
+                //? On ajoute un proprité fullWitdh à chaque objet de this.data.tilesList (pour gérer la largueur des tuiles via une props)
+                let tilesNumber = this.pageData.tiles_list.length;
+                for (let i=0 ; i<tilesNumber; i++) {
+                        this.pageData.tiles_list[i].fullWidth = false;
                     }
 
-                    //? On ajoute un proprité fullWitdh à chaque objet de this.data.tilesList (pour gérer la largueur des tuiles via une props)
-                    for (let i=0 ; i<this.pageData.tilesList.length; i++) {
-                        this.pageData.tilesList[i].fullWidth = false;
+                //? Si le nombre de tuiles est impair, la valeur de la propriété fullWidth passe à true pour la dernière tuile
+                if (tilesNumber%2 != 0) {
+                        this.pageData.tiles_list[tilesNumber-1].fullWidth = true;
                     }
-                })
-                .then(() => {
-
-                    //? Si le nombre de tuile est impair, la valeur de la propriété fullWidth passe à true pour la dernière tuile
-                    if (this.pageData.tilesNumber%2 != 0) {
-                        console.log("prout");
-                        this.pageData.tilesList[this.pageData.tilesNumber-1].fullWidth = true;
-                    }
-                    console.log('bé');
-                })
-                },
+            },
         },
         mounted() {
 
