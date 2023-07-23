@@ -5,7 +5,7 @@
                     <h5>{{ title }}</h5>
                 </div>
                 <div class="article_div_title_bloc_informations">
-                    {{ user.firstName + " " + user.lastName + " - " + date }}
+                    {{ user.first_name_user + " " + user.last_name_user + " - " + date }}
                 </div>
             </div>
             <div class="article_div_categories">

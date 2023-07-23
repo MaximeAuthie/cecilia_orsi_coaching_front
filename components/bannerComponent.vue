@@ -4,7 +4,7 @@
             <img src="~/assets/images/logo_nav_header.png" alt="">
         </div>
         <div class="banner_message">
-            <h1>{{ messages[activeMessageIndex] }}</h1>
+            <h1>{{ messages[activeMessageIndex].content_banner_text }}</h1>
         </div> 
         
         <div class="banner_buttons">
