@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import CategoryService from '@/services/CategorieService';
+
 import { usePagesStore } from '@/store/page';
 import { useArticlesStore } from '@/store/article';
 import { useCategoriesStore } from '@/store/category'
