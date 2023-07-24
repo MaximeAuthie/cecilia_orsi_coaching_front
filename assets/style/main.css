@@ -351,7 +351,7 @@ form {
 }
 
 
-/* ANIMAATIONS */
+/* ANIMATIONS */
 
 @keyframes hoverDiv {
     0% {
@@ -377,7 +377,6 @@ form {
     }
     100% {
         text-shadow: 0 13px 13px rgba(0, 0, 0, 0.25);
-        color: #B05447;
     }
 }
 
@@ -387,5 +386,17 @@ form {
     }
     100% {
         text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    }
+}
+
+@media screen and (min-width: 1210px) {
+    @keyframes hoverText {
+        0% {
+            text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        }
+        100% {
+            text-shadow: 0 13px 13px rgba(0, 0, 0, 0.25);
+            color: #B05447;
+        }
     }
 }
