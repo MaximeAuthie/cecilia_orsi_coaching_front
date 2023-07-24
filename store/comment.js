@@ -1,17 +1,16 @@
 import { defineStore } from 'pinia';
 import Utils from '@/services/Utils';
 
-export const useArticlesStore = defineStore('articles', {
+export const useCommentsStore = defineStore('comments', {
     state: () => ({
-        articles: [],
-        frontPageArticle: []
+        comments: []
     }),
     actions: {
-        async getAllArticles() {
+        async getAllComments() {
             try {
 
                 //? Appeler l'api getAllArticles()
-                let response = await fetch('https://127.0.0.1:8000/api/article/validated/all', {
+                let response = await fetch('https://127.0.0.1:8000/api/comment/all', {
                     method:'GET',
                     headers: {
                         "Accept": "application/json",
@@ -26,32 +25,28 @@ export const useArticlesStore = defineStore('articles', {
                 }
                 
                 //? En cas de succès de la reuquête :
-                
+                    
                 //? Affecter le json de la réponse à this.articles
-                const articlesList = await response.json();
-                this.articles = articlesList;
+                const commentsList = await response.json();
+                this.comments = commentsList;
 
-                //? Changer le format de date des propriétés date_article de this.articles
-                this.formatArticlesDates();
-
-                //? Affecter les données du dernier articles à this.frontPageArticle
-                this.frontPageArticle = this.articles[this.articles.length-1];
-
-
+                //? Changer le format de date des propriétés date_comment de this.comments
+                this.formatCommentsDates();
+            
             //? En cas d'erreur inattendue, capter l'erreur rencontrée et emettre une erreur dans la console
             } catch (error) {
                 console.error(error.message);
             }
             
         },
-        formatArticlesDates() {
+        formatCommentsDates() {
 
-            //? On vérifie que le this.articles n'est pas vide
-            if (this.articles != '') {
+            //? On vérifie que le this.comments n'est pas vide
+            if (this.comments != '') {
 
-                //? Parcourir this.articles pour modifier le format de date_article grâce à la méthode formatDate() du service Utils
-                this.articles.forEach(article => {
-                    article.date_article = Utils.formatDate(article.date_article);
+                //? Parcourir this.comments pour modifier le format de date_article grâce à la méthode formatDate() du service Utils
+                this.comments.forEach(comment => {
+                    comment.date_comment = Utils.formatDatetime(comment.date_comment);
                 })
             }
         }
