@@ -1,11 +1,11 @@
 <template>
     <div class="display_comments_div">
         <h3>Commentaires</h3>
-        <CommentsDisplayComponent v-for="comment in comments" :id="comment.id" :author-name="comment.authorName" :date="comment.date" :content="comment.content" ></CommentsDisplayComponent>
+        <CommentsDisplayComponent v-for="comment in comments" :id="comment.id" :author-name="comment.author_name_comment" :date="comment.date_comment" :content="comment.content_comment" ></CommentsDisplayComponent>
         <div class="display_comments_div_form">
             <form v-if="!isFormSubmit" @submit.prevent="">
                 <h6>Poster un commentaire</h6>
-                <label for="authorName">Votre prénom</label><br>
+                <label for="authorName">Vos prénom et nom</label><br>
                 <input v-model="newComment.authorName" @keyup="checkImputKeyUp" :class="isEmpty.authorName ? 'bad_input' : 'normal_input'" type="text" name="authorName" id="authorName"><br>
                 <p v-if="isEmpty.authorName" class="error_message">Veuillez saisir votre nom</p>
 
@@ -15,23 +15,29 @@
                 <p v-if="!isMailCorrect" class="error_message">Format de l'adresse mail incorrect</p>
 
                 <label for="content">Votre commentaire</label><br>
-                <textarea v-model="newComment.content" @keyup="checkImputKeyUp" :class="isEmpty.content ? 'bad_textarea' : 'normal_textarea'"  name="content" id="content">Saisir votre message ici</textarea>
+                <textarea v-model="newComment.content" @keyup="checkImputKeyUp" :class="isEmpty.content ? 'bad_textarea' : 'normal_textarea'"  name="content" id="content"></textarea>
                 <p v-if="isEmpty.content" class="error_message">Veuillez saisir un commentaire</p>
 
                 <input @click="submitForm" class="button button_form" type="button" value="Poster">
             </form>
             <div v-else class="content_validation_message">
-                <h6>Votre commentaire à bien été pris en compte. <br> Il sera affiché après validation par nos équipes</h6>
+                <h6 v-if="isError" class="error_message">Echec lors de l'envoi de votre commentaire. <br> Veuillez réessayer plus tard.</h6>
+                <h6 v-else>Votre commentaire à bien été pris en compte. <br> Il sera affiché après validation par nos équipes</h6>
             </div>
 
         </div>
     </div>
 </template>
 
-<script lang="ts">
+<script>
+    import Utils from '@/services/Utils';
 
     export default {
         props: {
+            articleId: {
+                type:       Number,
+                required:   true
+            },
             comments: {
                 type:       Object,
                 required:   true
@@ -39,29 +45,62 @@
         },
         data() {
             return {
-                isFormSubmit:   false as boolean,
-                isMailCorrect:  true as boolean,
+                isFormSubmit:   false,
+                isError:        false,
+                isMailCorrect:  true ,
                 newComment: {
-                    authorName:     '' as string,
-                    authorEmail:    '' as string,
-                    content:        '' as string
+                    authorName:     '',
+                    authorEmail:    '',
+                    content:        ''
                 },
                 isEmpty: {
-                    authorName:     false as boolean,
-                    authorEmail:    false as boolean,
-                    content:        false as boolean,
-                    atLeastOne:     false as boolean
+                    authorName:     false,
+                    authorEmail:    false,
+                    content:        false,
+                    atLeastOne:     false
                 }
             }
         },
         methods: {
-            submitForm() {
+            async submitForm() {
                 //? Exécuter les fonction de vérification des saisies
                 this.checkImputSubmit();
                 this.checkMailFormat();
 
                 //? Vérifier si les saisies sont correctes
                 if (this.isEmpty.atLeastOne == false && this.isMailCorrect == true) {
+                
+                    let commentBody = {
+                        author_name_comment:    this.newComment.authorName,
+                        author_email_comment:   this.newComment.authorEmail,
+                        date_comment:           Utils.getCurrentDateTime(),
+                        content_comment:        this.newComment.content,
+                        articleId:              this.articleId
+                    }
+                    let commentBodyJson = JSON.stringify(commentBody);
+                    console.log(commentBodyJson);
+                    await fetch('https://127.0.0.1:8000/api/comment/add', {
+                        method:'POST',
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        body: commentBodyJson,
+                    })
+                    .then(async response => {
+                        if (response.ok) {
+
+                            //? Si la requête réussit
+                            const data = await response.json();
+                            console.log(data);
+                            } else {
+
+                            //? Si la requête échoue
+                            const errorMessage = await response.text();
+                            console.error(errorMessage);
+                            this.isError = true
+                            }
+                    })
                     this.isFormSubmit = true;
                 }
             },
