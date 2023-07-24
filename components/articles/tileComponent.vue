@@ -18,7 +18,7 @@
     </nuxt-link>
 </template>
 
-<script lang="ts">
+<script>
     export default {
         props: {
             id : {
@@ -52,7 +52,7 @@
         },
         data() {
             return {
-                tileRoute : '' as string
+                tileRoute : ''
             }
         },
         mounted() {
