@@ -23,6 +23,7 @@
     import { useArticlesStore } from '@/store/article';
     import { usePagesStore } from '@/store/page';
     import { useCategoriesStore } from '@/store/category'
+    import { useCommentsStore } from '@/store/comment';
 
     export default {
         setup() {
@@ -34,6 +35,9 @@
 
             const categoriesStore = useCategoriesStore();
             categoriesStore.getAllCategories();
+
+            const commentsStore = useCommentsStore();
+            commentsStore.getAllComments();
         },
         data() {
             return {
