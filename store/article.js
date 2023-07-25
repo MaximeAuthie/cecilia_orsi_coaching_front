@@ -7,6 +7,9 @@ export const useArticlesStore = defineStore('articles', {
         frontPageArticle: []
     }),
     actions: {
+        updateArticle(newArticles) {
+            this.articles = newArticles;
+        },
         async getAllArticles() {
             try {
 
