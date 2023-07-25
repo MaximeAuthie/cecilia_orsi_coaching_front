@@ -14,31 +14,28 @@ export const useArticlesStore = defineStore('articles', {
             try {
 
                 //? Appeler l'api getAllArticles()
-                let response = await fetch('https://127.0.0.1:8000/api/article/validated/all', {
+                await $fetch('https://127.0.0.1:8000/api/article/validated/all', {
                     method:'GET',
                     headers: {
                         "Accept": "application/json",
                         "Content-Type": "application/json",
                         "Access-Control-Allow-Origin": "*"
                     }
-                });
-                
-                //? En cas d'erreur, emettre une erreur dans la console
-                if (!response.ok) {
-                    throw new Error('Erreur lors de la récupération des articles');
-                }
-                
-                //? En cas de succès de la reuquête :
-                
-                //? Affecter le json de la réponse à this.articles
-                const articlesList = await response.json();
-                this.articles = articlesList;
+                }).then(response => {
+                    //? Affecter le json de la réponse à this.articles
+                    const articlesList = response;
+                    this.articles = articlesList;
 
-                //? Changer le format de date des propriétés date_article de this.articles
-                this.formatArticlesDates();
+                    //? Changer le format de date des propriétés date_article de this.articles
+                    this.formatArticlesDates();
 
-                //? Affecter les données du dernier articles à this.frontPageArticle
-                this.frontPageArticle = this.articles[this.articles.length-1];
+                    //? Affecter les données du dernier articles à this.frontPageArticle
+                    this.frontPageArticle = this.articles[this.articles.length-1];
+                })
+            
+        
+                
+                
 
 
             //? En cas d'erreur inattendue, capter l'erreur rencontrée et emettre une erreur dans la console

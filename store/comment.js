@@ -10,28 +10,20 @@ export const useCommentsStore = defineStore('comments', {
             try {
 
                 //? Appeler l'api getAllArticles()
-                let response = await fetch('https://127.0.0.1:8000/api/comment/all', {
+                let response = await $fetch('https://127.0.0.1:8000/api/comment/all', {
                     method:'GET',
                     headers: {
                         "Accept": "application/json",
                         "Content-Type": "application/json",
                         "Access-Control-Allow-Origin": "*"
                     }
-                });
-                
-                //? En cas d'erreur, emettre une erreur dans la console
-                if (!response.ok) {
-                    throw new Error('Erreur lors de la récupération des articles');
-                }
-                
-                //? En cas de succès de la reuquête :
-                    
-                //? Affecter le json de la réponse à this.articles
-                const commentsList = await response.json();
-                this.comments = commentsList;
-
-                //? Changer le format de date des propriétés date_comment de this.comments
-                this.formatCommentsDates();
+                }).then(response => {
+                    //? Affecter le json de la réponse à this.articles
+                    const commentsList = response;
+                    this.comments = commentsList;
+                    //? Changer le format de date des propriétés date_comment de this.comments
+                    this.formatCommentsDates();
+                }) 
             
             //? En cas d'erreur inattendue, capter l'erreur rencontrée et emettre une erreur dans la console
             } catch (error) {
