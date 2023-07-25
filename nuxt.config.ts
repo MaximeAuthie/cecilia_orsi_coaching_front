@@ -6,5 +6,8 @@ export default defineNuxtConfig({
     host: '0.0.0.0' // default: localhost,
   },
   css: ["~/assets/style/main.css"],
-  modules: ["@pinia/nuxt"]
+  modules: ["@pinia/nuxt"],
+  build: {
+    transpile: ['pinia'],
+  },
 })
