@@ -58,7 +58,7 @@
         </section>
     </div>
 </template>
-    
+
 <script>
 
 import { usePagesStore } from '@/store/page';
@@ -78,33 +78,7 @@ import { useCategoriesStore } from '@/store/category'
             }
         },
         methods: {
-            // getArticles() {
-            //     const store = useArticlesStore();
-
-            //     //? Vérifier si les articles sont toujours présents dans le store
-            //     if (store.articles.length > 0) {
-            //         this.articles           = store.articles;
-            //         this.frontPageArticle   = store.frontPageArticle;
-            //         this.loading            = false;
-            //     } else {
-
-            //     //? Si les articles ne sont pas déjà présents dans le store, effectuer l'appel API
-            //     store.getAllArticles()
-            //         .then(() => {
-            //         this.articles           = store.articles;
-            //         this.frontPageArticle   = store.frontPageArticle;
-            //         this.loading            = false;
-            //         })
-
-            //         //? En cas d'erreur inattendue, capter l'erreur rencontrée
-            //         .catch((error) => {
-            //         console.error('Erreur lors de la récupération des articles :', error);
-            //         this.loading            = false;
-            //         });
-            //     }
-
-            // },
-            async articleTest() {
+            getArticles() {
                 const store = useArticlesStore();
 
                 //? Vérifier si les articles sont toujours présents dans le store
@@ -112,24 +86,23 @@ import { useCategoriesStore } from '@/store/category'
                     this.articles           = store.articles;
                     this.frontPageArticle   = store.frontPageArticle;
                     this.loading            = false;
-                    console.log("Articles déjà chargés");
                 } else {
-                    try {
-                        const { data: articles } = await useFetch('https://127.0.0.1:8000/api/article/validated/all', {
-                            method:'GET',
-                            headers: {
-                                "Accept": "application/json",
-                                "Content-Type": "application/json",
-                                "Access-Control-Allow-Origin": "*"
-                            }
-                        })
-                        console.log("Chargement des articles");
-                        console.log(articles.value);
-                        store.updateArticle(articles.value);
-                    } catch (error) {
-                        console.error('Erreur lors de la récupération des articles :', error);
-                    }
+
+                //? Si les articles ne sont pas déjà présents dans le store, effectuer l'appel API
+                store.getAllArticles()
+                    .then(() => {
+                    this.articles           = store.articles;
+                    this.frontPageArticle   = store.frontPageArticle;
+                    this.loading            = false;
+                    })
+
+                    //? En cas d'erreur inattendue, capter l'erreur rencontrée
+                    .catch((error) => {
+                    console.error('Erreur lors de la récupération des articles :', error);
+                    this.loading            = false;
+                    });
                 }
+
             },
             getCategories() {
                 const store = useCategoriesStore();
@@ -200,9 +173,9 @@ import { useCategoriesStore } from '@/store/category'
         mounted() {
             //? Exécution de la méthode récupérant les données de la page dans la BDD et qui les place dans l'objet this.pageData
             this.getPageData();
-            // this.getArticles();
+            this.getArticles();
             this.getCategories();
-            this.articleTest();
+
             //?Vérifier le nombre d'articles pour afficher la barre "voir plus"
             if (this.articles.length > 9) {
                 this.isMoreThenNineArticles = true;
