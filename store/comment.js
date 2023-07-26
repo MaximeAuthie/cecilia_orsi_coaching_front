@@ -3,14 +3,15 @@ import Utils from '@/services/Utils';
 
 export const useCommentsStore = defineStore('comments', {
     state: () => ({
-        comments: []
+        comments: [],
+        commentsToValidate: []
     }),
     actions: {
         async getAllComments() {
             try {
 
                 //? Appeler l'api getAllArticles()
-                let response = await $fetch('https://127.0.0.1:8000/api/comment/all', {
+                await $fetch('https://127.0.0.1:8000/api/comment/validated', {
                     method:'GET',
                     headers: {
                         "Accept": "application/json",
@@ -25,6 +26,38 @@ export const useCommentsStore = defineStore('comments', {
                     this.formatCommentsDates();
                 }) 
             
+            //? En cas d'erreur inattendue, capter l'erreur rencontrée et emettre une erreur dans la console
+            } catch (error) {
+                console.error(error.message);
+            }
+            
+        },
+        async getCommentsToValidate() {
+            try {
+
+                //? Appeler l'api getAllArticles()
+                await $fetch('https://127.0.0.1:8000/api/comment/toValidate', {
+                    method:'GET',
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    }
+                }).then(response => {
+                    //? Affecter le json de la réponse à this.articles
+                    const commentsList = response;
+                    this.commentsToValidate = commentsList;
+                    //? Changer le format de date des propriétés date_comment de this.comments
+                    
+                    if (this.commentsToValidate != '') {
+
+                        //? Parcourir this.comments pour modifier le format de date_article grâce à la méthode formatDate() du service Utils
+                        this.commentsToValidate.forEach(comment => {
+                            comment.date_comment = Utils.formatDatetime(comment.date_comment);
+                        })
+                    }
+                }) 
+                console.log(this.commentsToValidate)
             //? En cas d'erreur inattendue, capter l'erreur rencontrée et emettre une erreur dans la console
             } catch (error) {
                 console.error(error.message);
