@@ -1,42 +1,47 @@
 <template>
-    <BannerComponent v-if="pageDataDownload" :imgUrl="pageData.banner_url_page" :messages="pageData.BannerTextsList" :isMainButtonActive="pageData.isMainButtonActive_page" :isSecondButtonActive="pageData.isSecondaryButtonActive_page" ></BannerComponent>
-    <div class="content">
-        
-        <section v-if="!isFormSubmit" class="content_form">
-            <h2>Envoyer un message</h2>
-            <form @submit.prevent="">
-                <label for="firstName">Votre prénom</label><br>
-                <input v-model="formData.firstName" @keyup="checkImputKeyUp" :class="isEmpty.firstName ? 'bad_input' : 'normal_input'" type="text" name="firstName" id="firstName"><br>
-                <p v-if="isEmpty.firstName" class="error_message">Veuillez saisir votre prénom</p>
+    <div v-if="!pageDataDownload" class="waiting_div">
+        <h2>Bienvenue sur le site de Cécilia Orsi Coaching</h2>
+        <h2>Veuillez patienter...</h2>
+    </div>
+    <div v-else>
+        <BannerComponent v-if="pageDataDownload" :imgUrl="pageData.banner_url_page" :messages="pageData.BannerTextsList" :isMainButtonActive="pageData.isMainButtonActive_page" :isSecondButtonActive="pageData.isSecondaryButtonActive_page" ></BannerComponent>
+        <div class="content">
+            <section v-if="!isFormSubmit" class="content_form">
+                <h2>Envoyer un message</h2>
+                <form @submit.prevent="">
+                    <label for="firstName">Votre prénom</label><br>
+                    <input v-model="formData.firstName" @keyup="checkImputKeyUp" :class="isEmpty.firstName ? 'bad_input' : 'normal_input'" type="text" name="firstName" id="firstName"><br>
+                    <p v-if="isEmpty.firstName" class="error_message">Veuillez saisir votre prénom</p>
 
-                <label for="lastName">Votre nom</label><br>
-                <input v-model="formData.lastName" @keyup="checkImputKeyUp" :class="isEmpty.lastName ? 'bad_input' : 'normal_input'" type="text" name="lastName" id="lastName"><br>
-                <p v-if="isEmpty.lastName" class="error_message">Veuillez saisir votre nom</p>
+                    <label for="lastName">Votre nom</label><br>
+                    <input v-model="formData.lastName" @keyup="checkImputKeyUp" :class="isEmpty.lastName ? 'bad_input' : 'normal_input'" type="text" name="lastName" id="lastName"><br>
+                    <p v-if="isEmpty.lastName" class="error_message">Veuillez saisir votre nom</p>
 
-                <label for="email">Votre adresse mail</label><br>
-                <input v-model="formData.email" @keyup="checkImputKeyUp" :class="isEmpty.email ? 'bad_input' : 'normal_input'" type="mail" name="email" id="email"><br>
-                <p v-if="isEmpty.email" class="error_message">Veuillez saisir votre adresse mail</p>
-                <p v-if="!isMailCorrect" class="error_message">Format de l'adresse mail incorrect</p>
+                    <label for="email">Votre adresse mail</label><br>
+                    <input v-model="formData.email" @keyup="checkImputKeyUp" :class="isEmpty.email ? 'bad_input' : 'normal_input'" type="mail" name="email" id="email"><br>
+                    <p v-if="isEmpty.email" class="error_message">Veuillez saisir votre adresse mail</p>
+                    <p v-if="!isMailCorrect" class="error_message">Format de l'adresse mail incorrect</p>
 
-                <label for="subject">Sujet de votre message</label><br>
-                <input v-model="formData.subject" @keyup="checkImputKeyUp" :class="isEmpty.subject ? 'bad_input' : 'normal_input'" type="text" name="subject" id="subject"><br>
-                <p v-if="isEmpty.subject" class="error_message">Veuillez saisir un sujet pour votre message</p>
+                    <label for="subject">Sujet de votre message</label><br>
+                    <input v-model="formData.subject" @keyup="checkImputKeyUp" :class="isEmpty.subject ? 'bad_input' : 'normal_input'" type="text" name="subject" id="subject"><br>
+                    <p v-if="isEmpty.subject" class="error_message">Veuillez saisir un sujet pour votre message</p>
 
-                <label for="content">Votre message</label><br>
-                <textarea v-model="formData.content" @keyup="checkImputKeyUp" :class="isEmpty.content ? 'bad_textarea' : 'normal_textarea'"  name="content" id="content"></textarea>
-                <p v-if="isEmpty.content" class="error_message">Veuillez saisir un message</p>
+                    <label for="content">Votre message</label><br>
+                    <textarea v-model="formData.content" @keyup="checkImputKeyUp" :class="isEmpty.content ? 'bad_textarea' : 'normal_textarea'"  name="content" id="content"></textarea>
+                    <p v-if="isEmpty.content" class="error_message">Veuillez saisir un message</p>
 
-                <p v-if="serverError" class="error_message p-center" id="serverError">{{ serverResponse }}</p>
+                    <p v-if="serverError" class="error_message p-center" id="serverError">{{ serverResponse }}</p>
 
-                <input @click="submitForm" class="button button_form" type="button" value="Envoyer">
-            </form>
-        </section>
-        <section v-else class="content_validation_message">
-            <h4>Votre message à bien été envoyé.</h4>
-        </section>
-        <section class="content_tiles">
-            <TileComponent v-for="tile in pageData.tiles_list" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
-        </section>
+                    <input @click="submitForm" class="button button_form" type="button" value="Envoyer">
+                </form>
+            </section>
+            <section v-else class="content_validation_message">
+                <h4>Votre message à bien été envoyé.</h4>
+            </section>
+            <section class="content_tiles">
+                <TileComponent v-for="tile in pageData.tiles_list" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
+            </section>
+        </div>
     </div>
 </template>
 
@@ -67,7 +72,7 @@
                     subject:    '',
                     content:    '',
                 },
-                pageId :            2,
+                pageId :            5,
                 pageData :          {},
                 pageDataDownload :  false
             }

@@ -1,30 +1,36 @@
 <template>
-    <BannerComponent v-if="pageDataDownload" :imgUrl="pageData.banner_url_page" :messages="pageData.BannerTextsList" :isMainButtonActive="pageData.isMainButtonActive_page" :isSecondButtonActive="pageData.isSecondaryButtonActive_page" ></BannerComponent>
-    <div class="content">
-        <section class="content_description">
-            <div class="content_description_avatar" :style="{backgroundImage: pageData.img1_url_page}"></div>
-            <p>
-                Je m’appelle Cécilia Orsi, j’ai 31 ans je vis à Toulouse.<br>
-                <br>
-                Ayant été anxieuse sociale pendant des années, je sais l’importance d’un accompagnement adéquat.
-                Suite à de nombreuses expériences professionnelles (la plupart dans le social et la petite enfance), passionnée de psychologie et de compréhension des comportements humains je décide d’aller plus loin dans mes envies et mes convictions. <br>
-                J’entreprends un travail sur moi qui m’as permis de comprendre mon fonctionnement et de m’ouvrir à ce que j’aime le plus : comprendre et aider les autres.<br>
-                <br>
-                Ma première formation fût en psychologie et plus particulièrement en thérapies brèves (Thérapie cognitivo comportementale).<br>     
-                Une fois obtenue, j’ai par la suite entrepris une formation certifiante en coaching de vie.<br>
-                Aujourd’hui entrepreneuse, j’accompagne des femmes et des hommes dans de multiples problématiques, pour leur permettre d’être en accord avec leurs besoins et leurs envies.<br>
-                <br>
-                Mon but sera de vous accompagner en toute neutralité, de vous aider à cheminer vers un mieux-être ou un objectif définit ensemble. Dans ma pratique il y a bien sur de l’écoute active, des questionnements mais aussi des outils qui vous serons utiles lors de vos réflexions et qui vous permettront d’y voir plus clair.<br>
-                <br>
-                Mon approche est humaniste et j’utilise principalement l’analyse transactionnelle comme méthodologie de travail, cependant je m’adapte à vous et nous voyons ensemble ce qui vous convient le plus.<br>
-                <br>
-                A bientôt!
-            </p>
-            <NuxtLink to="/appointment"><input class="button button_content" type="button" value="Prendre rendez-vous"></NuxtLink>
-        </section>
-        <section class="content_tiles">
-            <TileComponent v-for="tile in pageData.tiles_list" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
-        </section>
+    <div v-if="!pageDataDownload" class="waiting_div">
+        <h2>Bienvenue sur le site de Cécilia Orsi Coaching</h2>
+        <h2>Veuillez patienter...</h2>
+    </div>
+    <div v-else>
+        <BannerComponent v-if="pageDataDownload" :imgUrl="pageData.banner_url_page" :messages="pageData.BannerTextsList" :isMainButtonActive="pageData.isMainButtonActive_page" :isSecondButtonActive="pageData.isSecondaryButtonActive_page" ></BannerComponent>
+        <div class="content">
+            <section class="content_description">
+                <div class="content_description_avatar" :style="{backgroundImage: pageData.img1_url_page}"></div>
+                <p>
+                    Je m’appelle Cécilia Orsi, j’ai 31 ans je vis à Toulouse.<br>
+                    <br>
+                    Ayant été anxieuse sociale pendant des années, je sais l’importance d’un accompagnement adéquat.
+                    Suite à de nombreuses expériences professionnelles (la plupart dans le social et la petite enfance), passionnée de psychologie et de compréhension des comportements humains je décide d’aller plus loin dans mes envies et mes convictions. <br>
+                    J’entreprends un travail sur moi qui m’as permis de comprendre mon fonctionnement et de m’ouvrir à ce que j’aime le plus : comprendre et aider les autres.<br>
+                    <br>
+                    Ma première formation fût en psychologie et plus particulièrement en thérapies brèves (Thérapie cognitivo comportementale).<br>     
+                    Une fois obtenue, j’ai par la suite entrepris une formation certifiante en coaching de vie.<br>
+                    Aujourd’hui entrepreneuse, j’accompagne des femmes et des hommes dans de multiples problématiques, pour leur permettre d’être en accord avec leurs besoins et leurs envies.<br>
+                    <br>
+                    Mon but sera de vous accompagner en toute neutralité, de vous aider à cheminer vers un mieux-être ou un objectif définit ensemble. Dans ma pratique il y a bien sur de l’écoute active, des questionnements mais aussi des outils qui vous serons utiles lors de vos réflexions et qui vous permettront d’y voir plus clair.<br>
+                    <br>
+                    Mon approche est humaniste et j’utilise principalement l’analyse transactionnelle comme méthodologie de travail, cependant je m’adapte à vous et nous voyons ensemble ce qui vous convient le plus.<br>
+                    <br>
+                    A bientôt!
+                </p>
+                <NuxtLink to="/appointment"><input class="button button_content" type="button" value="Prendre rendez-vous"></NuxtLink>
+            </section>
+            <section class="content_tiles">
+                <TileComponent v-for="tile in pageData.tiles_list" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
+            </section>
+        </div>
     </div>
 </template>
 

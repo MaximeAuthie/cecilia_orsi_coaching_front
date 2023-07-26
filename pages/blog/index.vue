@@ -1,61 +1,67 @@
 <template>
-    <BannerComponent v-if="pageDataDownload" :imgUrl="pageData.banner_url_page" :messages="pageData.BannerTextsList" :isMainButtonActive="pageData.isMainButtonActive_page" :isSecondButtonActive="pageData.isSecondaryButtonActive_page" ></BannerComponent>
-    <div class="content">
-        <section class="content_categories">
-            <div @click="showCategories" class="content_categories_title">
-                <div class="content_categories_title_content">
-                    <h5>Catégories</h5>
-                    <svg v-if="isCategoriesVisible" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                    <svg v-if="!isCategoriesVisible" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-                    </svg>
+    <div v-if="!pageDataDownload" class="waiting_div">
+        <h2>Bienvenue sur le site de Cécilia Orsi Coaching</h2>
+        <h2>Veuillez patienter...</h2>
+    </div>
+    <div v-else>
+        <BannerComponent v-if="pageDataDownload" :imgUrl="pageData.banner_url_page" :messages="pageData.BannerTextsList" :isMainButtonActive="pageData.isMainButtonActive_page" :isSecondButtonActive="pageData.isSecondaryButtonActive_page" ></BannerComponent>
+        <div class="content">
+            <section class="content_categories">
+                <div @click="showCategories" class="content_categories_title">
+                    <div class="content_categories_title_content">
+                        <h5>Catégories</h5>
+                        <svg v-if="isCategoriesVisible" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                        <svg v-if="!isCategoriesVisible" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                        </svg>
+                    </div>
                 </div>
-            </div>
-            <div v-if="isCategoriesVisible" class="content_categories_list">
-                <CategoryTagComponent v-for="category in categories"
-                    :name="category.name_category"
-                    :color="category.color_category">
-                </CategoryTagComponent>
-            </div>
-        </section>
-        <section class="content_articles">
-            <div class="content_article_title">
-                <h5>A la une</h5>
-            </div>
-            <ArticlesFrontPageComponent
-                :id="frontPageArticle.id"
-                :title="frontPageArticle.title_article"
-                :bannerUrl="frontPageArticle.banner_url_article"
-                :categories="frontPageArticle.categories_list">
-            </ArticlesFrontPageComponent>
-            <div class="content_articles_list">
-                <ArticlesTileComponent v-for="article in articles"
-                    :id="article.id"
-                    :title="article.title_article"
-                    :bannerUrl="article.banner_url_article"
-                    :summary="article.summary_article"
-                    :date="article.date_article"
-                    :user="article.user"
-                    :categories="article.categories_list"
-                ></ArticlesTileComponent>
-            </div>
-            <div v-if="isMoreThenNineArticles" class="content_articles_more">
-                <div class="content_categories_title_content">
-                    <h5>Voir plus</h5>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
+                <div v-if="isCategoriesVisible" class="content_categories_list">
+                    <CategoryTagComponent v-for="category in categories"
+                        :name="category.name_category"
+                        :color="category.color_category">
+                    </CategoryTagComponent>
                 </div>
-            </div>
-        </section>
-        <br>
-        <br>
-        <br>
-        <section class="content_tiles">
-            <TileComponent v-for="tile in pageData.tiles_list" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
-        </section>
+            </section>
+            <section class="content_articles">
+                <div class="content_article_title">
+                    <h5>A la une</h5>
+                </div>
+                <ArticlesFrontPageComponent
+                    :id="frontPageArticle.id"
+                    :title="frontPageArticle.title_article"
+                    :bannerUrl="frontPageArticle.banner_url_article"
+                    :categories="frontPageArticle.categories_list">
+                </ArticlesFrontPageComponent>
+                <div class="content_articles_list">
+                    <ArticlesTileComponent v-for="article in articles"
+                        :id="article.id"
+                        :title="article.title_article"
+                        :bannerUrl="article.banner_url_article"
+                        :summary="article.summary_article"
+                        :date="article.date_article"
+                        :user="article.user"
+                        :categories="article.categories_list"
+                    ></ArticlesTileComponent>
+                </div>
+                <div v-if="isMoreThenNineArticles" class="content_articles_more">
+                    <div class="content_categories_title_content">
+                        <h5>Voir plus</h5>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                    </div>
+                </div>
+            </section>
+            <br>
+            <br>
+            <br>
+            <section class="content_tiles">
+                <TileComponent v-for="tile in pageData.tiles_list" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
+            </section>
+        </div>
     </div>
 </template>
 
@@ -74,7 +80,8 @@ import { useCategoriesStore } from '@/store/category'
                 categories :                [],
                 isCategoriesVisible:        false,
                 frontPageArticle:           {},
-                articles:                   []
+                articles:                   [],
+                pageDataDownload :          false
             }
         },
         methods: {

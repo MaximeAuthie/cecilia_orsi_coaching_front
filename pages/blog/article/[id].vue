@@ -1,26 +1,32 @@
 
 <template>
-    <div class="banner" :style="{backgroundImage: articleDataTest.banner_url_article}">
-            <div class="banner_logo">
-            <img src="~/assets/images/logo_nav_header.png" alt="">
+    <div v-if="!isArticleLoaded" class="waiting_div">
+        <h2>Bienvenue sur le site de Cécilia Orsi Coaching</h2>
+        <h2>Veuillez patienter...</h2>
+    </div>
+    <div v-else>
+        <div class="banner" :style="{backgroundImage: articleDataTest.banner_url_article}">
+                <div class="banner_logo">
+                <img src="~/assets/images/logo_nav_header.png" alt="">
+            </div>
+            <div v-if="isArticleLoaded" class="banner_title">
+                <h1>{{ articleDataTest.title_article }}</h1>
+            </div> 
+        
+            <div v-if="isArticleLoaded" class="banner_informations">
+                Par {{ articleDataTest.user.first_name_user }} {{ articleDataTest.user.last_name_user }} - le {{ articleDataTest.date_article }}
+            </div>
         </div>
-        <div v-if="isArticleLoaded" class="banner_title">
-            <h1>{{ articleDataTest.title_article }}</h1>
-        </div> 
-      
-        <div v-if="isArticleLoaded" class="banner_informations">
-            Par {{ articleDataTest.user.first_name_user }} {{ articleDataTest.user.last_name_user }} - le {{ articleDataTest.date_article }}
+        <div class="content">
+            <section v-html="articleDataTest.content_article" class="content_article">
+            
+            </section>
+
+            <section class="content_comments">
+                <CommentsSpaceComponent :articleId="id" :comments="comments"></CommentsSpaceComponent>
+            </section>
         </div>
     </div>
-    <div class="content">
-    <section v-html="articleDataTest.content_article" class="content_article">
-       
-    </section>
-
-    <section class="content_comments">
-        <CommentsSpaceComponent :articleId="id" :comments="comments"></CommentsSpaceComponent>
-    </section>
-  </div>
 </template>
 
 <script>
@@ -210,12 +216,9 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 5vh;
-  }
-  .content_article p, .content_article ul {
     line-height: 4vh;
     font-size: 1.2em ;
-    color: #4B453F;
-}
+  }
 
   @media screen and (min-width: 1210px) {
       .banner {

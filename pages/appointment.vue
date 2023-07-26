@@ -1,42 +1,48 @@
 <template>
-    <BannerComponent v-if="pageDataDownload" :imgUrl="pageData.banner_url_page" :messages="pageData.BannerTextsList" :isMainButtonActive="pageData.isMainButtonActive_page" :isSecondButtonActive="pageData.isSecondaryButtonActive_page" ></BannerComponent>
-    <div class="content">
-        <section class="content_description">
-            <div class="content_description_images">
-                <div class="content_description_image" :style="{backgroundImage: pageData.img1_url_page}">
-                    <h5>A la Villa Santé</h5>
+    <div v-if="!pageDataDownload" class="waiting_div">
+        <h2>Bienvenue sur le site de Cécilia Orsi Coaching</h2>
+        <h2>Veuillez patienter...</h2>
+    </div>
+    <div v-else>
+        <BannerComponent v-if="pageDataDownload" :imgUrl="pageData.banner_url_page" :messages="pageData.BannerTextsList" :isMainButtonActive="pageData.isMainButtonActive_page" :isSecondButtonActive="pageData.isSecondaryButtonActive_page" ></BannerComponent>
+        <div class="content">
+            <section class="content_description">
+                <div class="content_description_images">
+                    <div class="content_description_image" :style="{backgroundImage: pageData.img1_url_page}">
+                        <h5>A la Villa Santé</h5>
+                    </div>
+                    <div class="content_description_image" :style="{backgroundImage: pageData.img2_url_page}">
+                        <h5>En visio</h5>
+                    </div>
                 </div>
-                <div class="content_description_image" :style="{backgroundImage: pageData.img2_url_page}">
-                    <h5>En visio</h5>
-                </div>
-            </div>
-                <p>
-                    Les rendez-vous se déroulent en visio via zoom ou sur Toulouse à la Villa santé :
-                </p>
-                <p class="center"><strong>19 rue de fenouillet <br> 31200 Toulouse</strong></p>
-                <p>    
-                    <strong>ATTENTION :</strong> Toute séance non annulée le jour même est due.<br>
-                </p>
-                <h3>Prise de rendez-vous en ligne</h3>
-                <div class="content_description_appointment_module">
-                    <iframe src="https://soins.calendoc.net/pro/4907/119973888727169/book/date/embedded"></iframe>
-                </div>
-                <h3>Prise de rendez-vous classique</h3>
-                <p>
-                    Vous avez des questions ou des demandes particulières concernant votre rendez-vous?<br>
-                    <br>
-                    N’hésitez pas à utiliser notre formulaire de contact ou à ma joindre par téléphone
-                </p>
-                <div class="content_description_image_buttons">
-                    <NuxtLink to="/contact"><input class="button button_content" type="button" value="Formulaire de contact"></NuxtLink>
-                    <NuxtLink to="tel:+33139380101"><input class="button button_content" type="button" value="Appel gratuit"></NuxtLink>
-                </div>
+                    <p>
+                        Les rendez-vous se déroulent en visio via zoom ou sur Toulouse à la Villa santé :
+                    </p>
+                    <p class="center"><strong>19 rue de fenouillet <br> 31200 Toulouse</strong></p>
+                    <p>    
+                        <strong>ATTENTION :</strong> Toute séance non annulée le jour même est due.<br>
+                    </p>
+                    <h3>Prise de rendez-vous en ligne</h3>
+                    <div class="content_description_appointment_module">
+                        <iframe src="https://soins.calendoc.net/pro/4907/119973888727169/book/date/embedded"></iframe>
+                    </div>
+                    <h3>Prise de rendez-vous classique</h3>
+                    <p>
+                        Vous avez des questions ou des demandes particulières concernant votre rendez-vous?<br>
+                        <br>
+                        N’hésitez pas à utiliser notre formulaire de contact ou à ma joindre par téléphone
+                    </p>
+                    <div class="content_description_image_buttons">
+                        <NuxtLink to="/contact"><input class="button button_content" type="button" value="Formulaire de contact"></NuxtLink>
+                        <NuxtLink to="tel:+33139380101"><input class="button button_content" type="button" value="Appel gratuit"></NuxtLink>
+                    </div>
+                    
                 
-            
-        </section>
-        <section class="content_tiles">
-            <TileComponent v-for="tile in pageData.tiles_list" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
-        </section>
+            </section>
+            <section class="content_tiles">
+                <TileComponent v-for="tile in pageData.tiles_list" :pageTitle="tile.title_tile" :pagePath="tile.link_tile" :pageImgUrm="tile.img_url_tile" :full-width="tile.fullWidth" ></TileComponent>
+            </section>
+        </div>
     </div>
 </template>
 
