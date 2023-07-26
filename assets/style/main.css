@@ -265,7 +265,7 @@ form {
 .content_tiles {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: wrap;
     min-width: 100%;
 }
@@ -399,4 +399,29 @@ form {
             color: #B05447;
         }
     }
+}
+
+/* MANAGE APP */
+
+.admin_content {
+    float: right;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #EBEBEB;
+    width: 80vw;
+    min-height: 88vh;
+    overflow-y: auto;
+    margin-top: 12vh;
+    padding-top: 3vh;
+}
+
+select {
+    width: 15vw;
+    height: 4vh;
+    border: #C6C5C5 solid 1px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.3em ;
 }
