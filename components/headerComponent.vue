@@ -26,7 +26,7 @@
     </header>
 </template>
 
-<script lang="ts">
+<script>
 
     export default {
         props: {
@@ -254,6 +254,7 @@
         .header_nav_list_link_selected {
             color: #B05447;
             text-shadow: 0 13px 13px rgba(0, 0, 0, 0.25);
+            margin-left: 3vw;
         }
         .header_nav_list_link:visited {
             color:#398C7E;
