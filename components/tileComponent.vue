@@ -9,7 +9,7 @@
    
 </template>
 
-<script lang="ts">
+<script>
     export default {
         props: {
             pageTitle: {
@@ -84,11 +84,11 @@
 
     @media screen and (min-width: 1210px) {
         .tile_div {
-            width: 25vw;
-            height: calc(23vw * 0.68);
+            width: 525px;
+            height: 35vh;
         }
         .tile_div_full_width {
-            width: 53.5vw;    
+            width: 1100px;    
         }
     }
 
