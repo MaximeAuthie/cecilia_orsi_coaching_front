@@ -4,23 +4,23 @@
     <slot />
 </template>
 <script>
-    import { useCommentsStore } from '@/store/comment';
 
     export default {
-        setup() {
-            const commentsStore = useCommentsStore();
-            commentsStore.getCommentsToValidate();
-        },
         data() {
             return {
                 route: ''
             }
+        },
+        methods: {
+           
         },
         updated() {
             this.route = this.$route.path;
         },
         mounted() {
             this.route = this.$route.path;
+
+            
         },
     }
 </script>
