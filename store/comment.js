@@ -7,7 +7,7 @@ export const useCommentsStore = defineStore('comments', {
         commentsToValidate: []
     }),
     actions: {
-        async getAllComments() {
+        async getValidatedComments() {
             try {
 
                 //? Appeler l'api getAllArticles()
@@ -57,7 +57,7 @@ export const useCommentsStore = defineStore('comments', {
                         })
                     }
                 }) 
-                console.log(this.commentsToValidate)
+                
             //? En cas d'erreur inattendue, capter l'erreur rencontrée et emettre une erreur dans la console
             } catch (error) {
                 console.error(error.message);

@@ -101,7 +101,7 @@
                 } else {
 
                 //? Si les articles ne sont pas déjà présents dans le store, effectuer l'appel API et récupérer les données de l'article
-                store.getAllComments()
+                store.getValidatedComments()
                     .then(() => {
                     this.comments            = store.comments.filter( comment => comment.article.id == this.id);;
                     this.isArticleLoaded            = true;
@@ -109,7 +109,7 @@
 
                     //? En cas d'erreur inattendue, capter l'erreur rencontrée
                     .catch((error) => {
-                    console.error('Erreur lors de la récupération des articles :', error);
+                    console.error('Erreur lors de la récupération des commentaires :', error);
                     this.loading            = false;
                     });
                 }

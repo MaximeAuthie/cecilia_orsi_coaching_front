@@ -44,7 +44,7 @@
             categoriesStore.getAllCategories();
 
             const commentsStore = useCommentsStore();
-            commentsStore.getAllComments();
+            commentsStore.getValidatedComments();
         },
         data() {
             return {
@@ -113,7 +113,6 @@
            
         },
         mounted() {
-            
 
             //? Exécution de la méthode récupérant les données de la page dans la BDD et qui les place dans l'objet this.pageData
             this.getPageData();
