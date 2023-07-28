@@ -1,7 +1,7 @@
 <template>
-    <div class="comment_card">
-        <div class="comment_card_header">
-            Article : {{ title }}
+    <div class="comment_card" :style="{borderColor: isValidated ? '#7DD274' : '#E04F5F'}">
+        <div class="comment_card_header" :style="{backgroundColor : isValidated ? '#7DD274' : '#E04F5F', borderColor: isValidated ? '#7DD274' : '#E04F5F'}">
+            Article : {{ title }} {{ isValidated? "(validé)" : "(rejeté)" }}
         </div>
         <div class="comments_card_content">
             <div class="comments_card_content_top">
@@ -9,7 +9,7 @@
                     De {{ author }} - le {{ dateTime }}
                 </div>
                 <div class="comments_card_content_top_validation">
-                    <svg @click="validateComment" class="comments_card_content_top_validation_validate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#15ba52" >
+                    <svg @click="validateComment" class="comments_card_content_top_validation_validate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#7DD274" >
                         <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
                     </svg>
                     <svg @click="rejectComment" class="comments_card_content_top_validation_reject" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#E04F5F">
@@ -47,6 +47,10 @@
             },
             content : {
                 type:       String,
+                required:   true
+            },
+            isValidated : {
+                type:       Boolean,
                 required:   true
             }
         },
