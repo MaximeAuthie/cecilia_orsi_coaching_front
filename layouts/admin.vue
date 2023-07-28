@@ -1,7 +1,7 @@
 <template>
     <ManagerHeaderComponent></ManagerHeaderComponent>
     <ManagerNavigationComponent :route="route"></ManagerNavigationComponent>
-    <slot />
+    <slot/>
 </template>
 <script>
 
@@ -24,10 +24,17 @@
         },
     }
 </script>
-<style>
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-        color: #4B453F;
-    }
+
+<style scoped>
+   
+
+
+
+
+
+
+
+
+
     
 </style>
