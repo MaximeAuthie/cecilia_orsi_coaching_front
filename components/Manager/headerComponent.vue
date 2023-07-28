@@ -13,7 +13,7 @@
         data() {
             return {
                userData: {
-                    avatar_url_user: "url(./assets/images/cecilia-orsi.png)"
+                    avatar_url_user: "url(../../assets/images/cecilia-orsi.png)"
                }
             }
         },
