@@ -14,7 +14,7 @@
                 <br>
                 <button v-if="!categoryUpdate" @click="addNewCategory" class="admin_button admin_button_main">Créer</button>
                 <button v-if="categoryUpdate" @click="updateCategory" class="admin_button admin_button_main">Modifier</button>
-                <button v-if="categoryUpdate" @click="updateCategory" class="admin_button admin_button_secondary">Annuler</button>
+                <button v-if="categoryUpdate" @click="resetFetchedData" class="admin_button admin_button_secondary">Annuler</button>
             </div>
         </div>
         <div class="admin_content_filters_message">
@@ -133,10 +133,10 @@
                 this.formSuccessMessage     = ''
             },
             resetFetchedData() { //? Réinitiliser des datas après update d'une catégorie
-                this.categoryUpdate             = false;
-                        this.formData.id        = 0,
-                        this.formData.name      = '',
-                        this.formData.color     = ''
+                this.categoryUpdate     = false;
+                this.formData.id        = 0,
+                this.formData.name      = '',
+                this.formData.color     = ''
             },
             checkColorFormat() { //? Vérifier si le format de la couleur est correct
 
@@ -171,7 +171,7 @@
                 this.formData.name      = name;
                 this.formData.color     = color;
                 console.log("niv 3 activé");
-            }
+            },
         }
     }
 
