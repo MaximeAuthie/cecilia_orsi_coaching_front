@@ -2,17 +2,32 @@
     <div class="admin_content">
         <h1>Modération des commentaires</h1>
         <div class="admin_content_filters">
-            <select v-model="commentStatus" name="cars" id="cars">
-                <option value="to-validate">A valider</option>
-                <option value="already-validate">Déjà validés</option>
-            </select>
-            <select v-model="article" name="cars" id="cars">
-                <option v-for="article in articles" :value="article.id">{{article.title_article}}</option>
-            </select>
-            <button @click="getComments">Filtrer</button>
-
+            <div class="admin_content_filters_bloc">
+                <label for="status" class="admin_label">Status :</label>
+                <select v-model="commentStatus" name="status" id="cars" class="admin_select">
+                    <option value="to-validate" class="admin_option">A valider</option>
+                    <option value="already-validate" class="admin_option">Déjà validés</option>
+                </select>
+            </div>
+            <div class="admin_content_filters_bloc">
+                <label for="article" class="admin_label">Article :</label>
+                <select v-model="article" name="article" id="cars" class="admin_select">
+                    <option v-for="article in articles" :value="article.id" class="admin_option">{{article.title_article}}</option>
+                </select>
+            </div>
+            <div class="admin_content_filters_bloc">
+                <br>
+                <button @click="getComments" class="admin_button admin_button_main">Filtrer</button>
+            </div>
         </div>    
-        <ManagerCommentComposant v-for="comment in comments" :id="comment.id" :title="comment.article.title_article" :author="comment.author_name_comment" :dateTime="comment.date_comment" :content="comment.content_comment"></ManagerCommentComposant>
+        <ManagerCommentComposant v-for="comment in comments"
+            :id="comment.id"
+            :title="comment.article.title_article"
+            :author="comment.author_name_comment"
+            :dateTime="comment.date_comment"
+            :content="comment.content_comment"
+            :isValidated="comment.isValidated_comment">
+        </ManagerCommentComposant>
     </div>
 </template>
 
@@ -118,45 +133,37 @@
                 }
             }
         },
-            mounted() {
-                this.getArticles();
-                this.getValidatedComments();
-                this.getCommentsToValidate();
-                const store = useCommentsStore();
-                store.$subscribe(state => {
-                    
-                    if (this.commentStatus === 'already-validate') {
-                        console.log("changement store already-validate");
-                        this.comments = store.comments;
-                    } else if (this.commentStatus === "to-validate" ) {
-                        console.log("changement store to-validate");
-                        this.comments = store.commentsToValidate;
-                    }
-                })
+        mounted() {
+            this.getArticles();
+            this.getValidatedComments();
+            this.getCommentsToValidate();
+            const store = useCommentsStore();
+            store.$subscribe(state => {
+                
+                if (this.commentStatus === 'already-validate') {
+                    console.log("changement store already-validate");
+                    this.comments = store.comments;
+                } else if (this.commentStatus === "to-validate" ) {
+                    console.log("changement store to-validate");
+                    this.comments = store.commentsToValidate;
+                }
+            })
 
-                const articleStore = useArticlesStore();
-                articleStore.$subscribe(state => {
-                    console.log("changement store article");
-                    this.articles = articleStore.articles;
-                })
-            }
+            const articleStore = useArticlesStore();
+            articleStore.$subscribe(state => {
+                console.log("changement store article");
+                this.articles = articleStore.articles;
+            })
+        }
     }
     
 </script>
 
 <style scoped>
-
     h1 {
         font-family: Arial, Helvetica, sans-serif;
         font-size: 2.2em;
         color: #4B453F;
         text-shadow: none;
-    }
-    .admin_content_filters {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        width: 50%;
     }
 </style>
