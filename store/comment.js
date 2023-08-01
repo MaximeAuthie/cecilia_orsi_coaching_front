@@ -22,6 +22,7 @@ export const useCommentsStore = defineStore('comments', {
                     //? Affecter le json de la réponse à this.articles
                     const commentsList = response;
                     this.comments = commentsList;
+ 
                     //? Changer le format de date des propriétés date_comment de this.comments
                     this.formatCommentsDates();
                 }) 
@@ -47,8 +48,8 @@ export const useCommentsStore = defineStore('comments', {
                     //? Affecter le json de la réponse à this.articles
                     const commentsList = response;
                     this.commentsToValidate = commentsList;
+
                     //? Changer le format de date des propriétés date_comment de this.comments
-                    
                     if (this.commentsToValidate != '') {
 
                         //? Parcourir this.comments pour modifier le format de date_article grâce à la méthode formatDate() du service Utils

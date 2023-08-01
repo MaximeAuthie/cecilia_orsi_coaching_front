@@ -6,6 +6,7 @@ export const useCategoriesStore = defineStore('categories', {
   }),
   actions: {
     async getAllCategories() {
+      console.log("GetAllCategories lancé");
         try {
             let response = await $fetch('https://127.0.0.1:8000/api/category/all', {
                 method:'GET',
