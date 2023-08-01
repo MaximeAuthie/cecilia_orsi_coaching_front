@@ -15,6 +15,8 @@
 </template>
 
 <script>
+    import { useCategoriesStore } from '@/store/category'
+
     export default {
         emits: ['update'],
         props: {
@@ -37,39 +39,41 @@
                 console.log("niv 1 activé, " + this.name + this.color);
             },
             async deleteCategory() {
+                const store = useCategoriesStore();
+                if (confirm("Etes-vous sûr de vouloir supprimer la catégorie \"" + this.name + "\" ?")) {
 
-                //? Transformer id en json
-                const body = {
-                    id: this.id,
-                    name: this.name
-                };
-                const bodyJson  = JSON.stringify(body);
+                    //? Transformer id en json
+                    const body = {
+                        id: this.id,
+                        name: this.name
+                    };
+                    const bodyJson  = JSON.stringify(body);
 
-                //? Exécuter l'appel API
-                await fetch('https://127.0.0.1:8000/api/category/delete', {
-                    method:'DELETE',
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*"
-                    },
-                    body: bodyJson,
-                })
-                .then(async response => {
-                    
-                    const body = await response.json()
-                    console.log(body);
-                    if (response.status == 200) {
-                        console.log(body.message);
-                        const store = useCategoriesStore();
-                        store.getAllCategories();
-                    } else {
-                        console.log(body.message);
-                    }
-                })
-                .catch(error => {
-                    this.formErrorMessage = "Une erreur est survenue. Veuillez réessayer plus tard.";
-                });
+                    //? Exécuter l'appel API
+                    await fetch('https://127.0.0.1:8000/api/category/delete', {
+                        method:'DELETE',
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json",
+                            "Access-Control-Allow-Origin": "*"
+                        },
+                        body: bodyJson,
+                    })
+                    .then(async response => {
+                        
+                        const body = await response.json()
+
+                        if (response.status == 200) {
+                            store.getAllCategories();
+                            alert("La catégorie " + this.name + " a été supprimée avec succès.");
+                        } else {
+                            console.log(body.message);
+                        }
+                    })
+                    .catch(error => {
+                        this.formErrorMessage = "Une erreur est survenue. Veuillez réessayer plus tard.";
+                    });
+                }
             }
         }
     }
