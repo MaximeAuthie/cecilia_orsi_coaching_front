@@ -414,6 +414,7 @@ form {
     min-height: 88vh;
     overflow-y: auto;
     margin-top: 12vh;
+    padding-bottom: 3vh;
     padding-top: 3vh;
     font-family: Arial, Helvetica, sans-serif;
     color: #4B453F;
@@ -423,7 +424,7 @@ form {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    align-items:end;
+    align-items:flex-end;
     width: 60%;
 }
 
@@ -449,10 +450,26 @@ form {
     color: #E04F5F;
 }
 
+.admin_content_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 70%;
+    margin-top: 7vh;
+}
+
+
+.admin_content_form_bloc {
+    width: 100%;
+    margin-bottom: 3vh;
+}
+
 .admin_button {
     padding: 0 2vw;
     border-radius: 10px;
     height: 4vh;
+    width: 10vw;
     cursor: pointer;
     margin: 0 0.5vh;
     border: 1px solid #E04F5F;
@@ -485,8 +502,17 @@ form {
     font-size: 0.8em;
 }
 
-.admin_input {
+.admin_input_filter {
     width: 15vw;
+    height: 3.5vh;
+    border: #C6C5C5 solid 1px;
+    border-radius: 10px;
+    text-align: start;
+    font-size: 1.3em ;
+}    
+
+.admin_input_form {
+    width: 100%;
     height: 3.5vh;
     border: #C6C5C5 solid 1px;
     border-radius: 10px;
