@@ -5,7 +5,7 @@
         <h2>Veuillez patienter...</h2>
     </div>
     <div v-else>
-        <div class="banner" :style="{backgroundImage: articleDataTest.banner_url_article}">
+        <div class="banner" :style="{backgroundImage: 'url(' + articleDataTest.banner_url_article + ')'}">
                 <div class="banner_logo">
                 <img src="~/assets/images/logo_nav_header.png" alt="">
             </div>

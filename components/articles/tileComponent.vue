@@ -1,6 +1,6 @@
 <template>
     <nuxt-link :to="tileRoute" class="article_div" >
-            <div class="article_div_title_bloc" :style="{backgroundImage: bannerUrl}">
+            <div class="article_div_title_bloc" :style="{backgroundImage: 'url(' + bannerUrl + ')'}">
                 <div class="article_div_title_bloc_title">
                     <h5>{{ title }}</h5>
                 </div>

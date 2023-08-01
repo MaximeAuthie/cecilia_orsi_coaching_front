@@ -14,7 +14,7 @@
                     <h3>Warren Buffet</h3>
                 </div>
                 <div class="content_description_quote_bar"></div>
-                <div class="content_description_image" :style="{backgroundImage: pageData.img1_url_page}"></div>
+                <div class="content_description_image" :style="{backgroundImage: 'url(' + pageData.img1_url_page +')'}"></div>
                 <p>
                     Les rendez-vous se déroulent en visio via zoom ou sur Toulouse à la Villa santé :
                 </p>

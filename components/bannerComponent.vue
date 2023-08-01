@@ -1,5 +1,5 @@
 <template>
-    <div class="banner" :style="{backgroundImage: imgUrl}">
+    <div class="banner" :style="{backgroundImage: 'url(' + imgUrl + ')'}">
         <div class="banner_logo">
             <img src="~/assets/images/logo_nav_header.png" alt="">
         </div>

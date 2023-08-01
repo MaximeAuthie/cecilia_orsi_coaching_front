@@ -8,10 +8,10 @@
         <div class="content">
             <section class="content_description">
                 <div class="content_description_images">
-                    <div class="content_description_image" :style="{backgroundImage: pageData.img1_url_page}">
+                    <div class="content_description_image" :style="{backgroundImage: 'url(' + pageData.img1_url_page + ')'}">
                         <h5>A la Villa Santé</h5>
                     </div>
-                    <div class="content_description_image" :style="{backgroundImage: pageData.img2_url_page}">
+                    <div class="content_description_image" :style="{backgroundImage: 'url(' + pageData.img2_url_page + ')'}">
                         <h5>En visio</h5>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <template>
     <nuxt-link class="tile_link" :to="pagePath">
-        <div class="tile_div" :style="{backgroundImage: pageImgUrm}" :class="{tile_div_full_width : fullWidth}">
+        <div class="tile_div" :style="{backgroundImage: 'url(' + pageImgUrm + ')'}" :class="{tile_div_full_width : fullWidth}">
             <div class="tile_title">
                 <h5>{{ pageTitle }}</h5>
             </div>
