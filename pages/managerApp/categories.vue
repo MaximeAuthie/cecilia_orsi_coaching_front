@@ -4,11 +4,11 @@
         <div class="admin_content_filters">
             <div class="admin_content_filters_bloc">
                 <label for="status" class="admin_label">Nom de la catégorie :</label>
-                <input @click="resetMessages" v-model="formData.name" type="text" class="admin_input">
+                <input @click="resetMessages" v-model="formData.name" type="text" class="admin_input_filter">
             </div>
             <div class="admin_content_filters_bloc">
                 <label for="status" class="admin_label">Couleur de la catégorie :</label>
-                <input @click="resetMessages" v-model="formData.color" type="text" class="admin_input">
+                <input @click="resetMessages" v-model="formData.color" type="text" class="admin_input_filter">
             </div>
             <div class="admin_content_filters_bloc_buttons">
                 <br>
@@ -165,12 +165,20 @@
                     this.formErrorMessage = "Veuillez compléter tous les champs du formulaire.";
                 }
             },
-            activateUpdateCategory(id, name, color) {
+            activateUpdateCategory(id, name, color) { //? Réagir à l'évènement "update" du composant "ManagerCategoriesListComponent"
+
+                //? Renseigner les datas du composant aves les datas remontées des composants enfants
                 this.categoryUpdate     = true;
                 this.formData.id        = id;
                 this.formData.name      = name;
                 this.formData.color     = color;
-                console.log("niv 3 activé");
+                
+                //? Remonter en haut de la page en utilisant un effet "smooth"
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: "smooth",
+                });
             },
         }
     }
